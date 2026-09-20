@@ -32,6 +32,7 @@ const SITES = {
 };
 
 const UA = "chrishannah.dev-feed-bot (+https://chrishannah.dev)";
+const GH_USER = "chrishannah";
 
 function decode(s) {
   if (!s) return "";
@@ -199,6 +200,127 @@ if (focus) {
   console.log("miss focus");
 }
 
+// GitHub activity — fetched server-side (authenticated, so no per-visitor
+// rate limits) and cached for the client to render.
+async function fetchGitHub() {
+  const token = process.env.GH_TOKEN || process.env.GITHUB_TOKEN;
+  const h = { "User-Agent": UA, Accept: "application/vnd.github+json" };
+  if (token) h.Authorization = `Bearer ${token}`;
+  const gh = { stats: {} };
+
+  try {
+    const r = await fetch(`https://api.github.com/users/${GH_USER}`, { headers: h });
+    console.log(`github user -> ${r.status}`);
+    if (r.ok) {
+      const u = await r.json();
+      gh.stats.repos = u.public_repos;
+      gh.stats.followers = u.followers;
+    }
+  } catch { console.log("github user -> error"); }
+
+  try {
+    const r = await fetch(
+      `https://api.github.com/users/${GH_USER}/repos?per_page=100&type=owner&sort=pushed`,
+      { headers: h }
+    );
+    console.log(`github repos -> ${r.status}`);
+    if (r.ok) {
+      const repos = (await r.json()).filter((x) => !x.fork);
+      gh.stats.stars = repos.reduce((a, x) => a + (x.stargazers_count || 0), 0);
+      const counts = {};
+      let total = 0;
+      repos.forEach((x) => { if (x.language) { counts[x.language] = (counts[x.language] || 0) + 1; total++; } });
+      if (total) {
+        gh.languages = Object.keys(counts)
+          .map((k) => ({ name: k, pct: Math.round((counts[k] / total) * 100) }))
+          .sort((a, b) => b.pct - a.pct)
+          .slice(0, 6);
+      }
+    }
+  } catch { console.log("github repos -> error"); }
+
+  try {
+    const r = await fetch(
+      `https://api.github.com/users/${GH_USER}/events/public?per_page=40`,
+      { headers: h }
+    );
+    console.log(`github events -> ${r.status}`);
+    if (r.ok) {
+      const events = await r.json();
+      const rows = [];
+      for (const ev of events) {
+        if (rows.length >= 9) break;
+        const repo = ev.repo && ev.repo.name ? ev.repo.name.split("/").pop() : "";
+        let msg = null;
+        if (ev.type === "PushEvent" && ev.payload.commits && ev.payload.commits.length) {
+          msg = ev.payload.commits[ev.payload.commits.length - 1].message.split("\n")[0];
+        } else if (ev.type === "CreateEvent" && ev.payload.ref_type === "repository") {
+          msg = "created repository";
+        } else if (ev.type === "CreateEvent" && ev.payload.ref_type === "tag") {
+          msg = "tagged " + ev.payload.ref;
+        } else if (ev.type === "ReleaseEvent") {
+          msg = "released " + (ev.payload.release ? ev.payload.release.tag_name : "");
+        } else if (ev.type === "PullRequestEvent") {
+          const pr = ev.payload.pull_request || {};
+          let a = ev.payload.action;
+          if (a === "closed" && pr.merged) a = "merged";
+          msg = a + " PR" + (pr.number ? " #" + pr.number : "") + (pr.title ? ": " + pr.title : "");
+        } else if (ev.type === "IssuesEvent") {
+          const is = ev.payload.issue || {};
+          msg = ev.payload.action + " issue" + (is.number ? " #" + is.number : "") + (is.title ? ": " + is.title : "");
+        }
+        if (msg) rows.push({ repo, msg, time: ev.created_at });
+      }
+      gh.commits = rows;
+    }
+  } catch { console.log("github events -> error"); }
+
+  // Contribution calendar via GraphQL (needs a token).
+  if (token) {
+    try {
+      const query = "query($login:String!){user(login:$login){contributionsCollection{contributionCalendar{totalContributions weeks{contributionDays{date contributionCount contributionLevel}}}}}}";
+      const r = await fetch("https://api.github.com/graphql", {
+        method: "POST",
+        headers: { ...h, "Content-Type": "application/json" },
+        body: JSON.stringify({ query, variables: { login: GH_USER } })
+      });
+      console.log(`github graphql -> ${r.status}`);
+      if (r.ok) {
+        const j = await r.json();
+        const cal = j.data && j.data.user && j.data.user.contributionsCollection.contributionCalendar;
+        if (cal) {
+          const lvl = { NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4 };
+          const days = [];
+          cal.weeks.forEach((w) => w.contributionDays.forEach((d) =>
+            days.push({ d: d.date, c: d.contributionCount, l: lvl[d.contributionLevel] || 0 })));
+          gh.total = cal.totalContributions;
+          gh.days = days;
+          let streak = 0;
+          const today = new Date().toISOString().slice(0, 10);
+          for (let i = days.length - 1; i >= 0; i--) {
+            if (days[i].c > 0) streak++;
+            else if (days[i].d === today) continue;
+            else break;
+          }
+          gh.stats.streak = streak;
+        }
+      }
+    } catch { console.log("github graphql -> error"); }
+  } else {
+    console.log("github graphql -> skipped (no token)");
+  }
+
+  return gh;
+}
+
+const github = await fetchGitHub();
+if (github && (github.days || github.commits || (github.stats && github.stats.repos != null))) {
+  out.github = github;
+  console.log(`ok   github (${github.days ? github.days.length + " days" : "no cal"}, ${github.commits ? github.commits.length + " commits" : "0 commits"})`);
+} else {
+  console.log("miss github");
+}
+
 // Recent production deployments (Vercel) — needs a VERCEL_TOKEN repo secret. A token
 // can't live in the page, so this runs server-side and caches the result.
 if (process.env.VERCEL_TOKEN) {
@@ -239,5 +361,6 @@ await mkdir("data", { recursive: true });
 await writeFile("data/feeds.json", JSON.stringify(out, null, 2) + "\n");
 console.log(
   `wrote data/feeds.json (${Object.keys(out.feeds).length} feeds` +
-  `${out.focus ? ", focus" : ""}${out.deployments ? ", " + out.deployments.length + " deploys" : ""})`
+  `${out.focus ? ", focus" : ""}${out.github ? ", github" : ""}` +
+  `${out.deployments ? ", " + out.deployments.length + " deploys" : ""})`
 );

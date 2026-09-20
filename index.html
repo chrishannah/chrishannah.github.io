@@ -360,39 +360,28 @@
     })();
   </script>
 
-  <!-- Live GitHub activity ------------------------------------------------ -->
+  <!-- Dashboard data (all cached server-side by the GitHub Action) --------- -->
   <script>
     (function () {
-      var USER = "chrishannah";
-      // Current focus is rendered by the Minifocus <script> embed in the
-      // Operator panel (see the .focus-embed block), which sidesteps CORS.
       var hm = document.getElementById("heatmap");
+      var log = document.getElementById("log");
+      var LANG_COLORS = ["#f73d3a", "#f3961d", "#17ecff", "#bd48e8", "#00ff95", "#ee388a"];
 
-      // Skeleton heatmap so the panel looks intentional before/without data.
-      var SKELETON = 53 * 7;
-      for (var i = 0; i < SKELETON; i++) {
+      // Skeleton heatmap so the panel looks intentional before data loads.
+      for (var i = 0; i < 53 * 7; i++) {
         var c = document.createElement("div");
         c.className = "hm-cell";
         hm.appendChild(c);
       }
 
       function fmt(n) { return (n == null ? "—" : Number(n).toLocaleString()); }
-
-      function streakFrom(days) {
-        // consecutive days with contributions, counting back from the end;
-        // today counting as 0 does not break the streak (grace day).
-        var streak = 0;
-        var todayStr = new Date().toISOString().slice(0, 10);
-        for (var i = days.length - 1; i >= 0; i--) {
-          if (days[i].count > 0) streak++;
-          else if (days[i].date === todayStr) continue; // grace for today
-          else break;
-        }
-        return streak;
+      function esc(t) {
+        var e = document.createElement("div");
+        e.textContent = t == null ? "" : String(t);
+        return e.innerHTML;
       }
-
-      function timeAgo(iso) {
-        var s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+      function timeAgo(v) {
+        var s = Math.floor((Date.now() - new Date(v).getTime()) / 1000);
         if (s < 60) return s + "s";
         var m = Math.floor(s / 60); if (m < 60) return m + "m";
         var h = Math.floor(m / 60); if (h < 24) return h + "h";
@@ -401,185 +390,119 @@
         var mo = Math.floor(d / 30); if (mo < 12) return mo + "mo";
         return Math.floor(d / 365) + "y";
       }
-      function esc(t) {
-        var e = document.createElement("div");
-        e.textContent = t == null ? "" : String(t);
-        return e.innerHTML;
-      }
 
-      // --- Contribution heatmap (CORS-friendly community API) ---
-      fetch("https://github-contributions-api.jogruber.de/v4/" + USER + "?y=last")
-        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-        .then(function (data) {
-          var days = data.contributions || [];
-          if (!days.length) return;
+      function renderGitHub(gh) {
+        if (!gh) return;
+        var s = gh.stats || {};
+        var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = fmt(v); };
+        set("st-repos", s.repos); set("st-stars", s.stars);
+        set("st-followers", s.followers); set("st-streak", s.streak);
+
+        // Contribution heatmap
+        var days = gh.days || [];
+        if (days.length) {
           hm.innerHTML = "";
-          var first = new Date(days[0].date + "T00:00:00Z");
+          var first = new Date(days[0].d + "T00:00:00Z");
           var pad = first.getUTCDay();
           for (var p = 0; p < pad; p++) {
             var pc = document.createElement("div");
             pc.className = "hm-cell pad";
             hm.appendChild(pc);
           }
-          var total = 0;
           days.forEach(function (day) {
-            total += day.count;
             var cell = document.createElement("div");
-            cell.className = "hm-cell l" + day.level;
-            cell.title = day.date + " · " + day.count +
-              (day.count === 1 ? " contribution" : " contributions");
+            cell.className = "hm-cell" + (day.l ? " l" + day.l : "");
+            cell.title = day.d + " · " + day.c + (day.c === 1 ? " contribution" : " contributions");
             hm.appendChild(cell);
           });
-          document.getElementById("ct-total").textContent = total.toLocaleString();
-          document.getElementById("st-streak").textContent = fmt(streakFrom(days));
+          if (gh.total != null) document.getElementById("ct-total").textContent = Number(gh.total).toLocaleString();
           var sc = document.querySelector(".heatmap-scroll");
           sc.scrollLeft = sc.scrollWidth;
-        })
-        .catch(function () {
-          document.getElementById("ct-total").textContent = "—";
-        });
+        }
 
-      // --- Profile + repo stats (GitHub API, CORS-enabled) ---
-      fetch("https://api.github.com/users/" + USER)
-        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-        .then(function (u) {
-          document.getElementById("st-repos").textContent = fmt(u.public_repos);
-          document.getElementById("st-followers").textContent = fmt(u.followers);
-        })
-        .catch(function () {});
-
-      var LANG_COLORS = ["#f73d3a", "#f3961d", "#17ecff", "#bd48e8", "#00ff95", "#ee388a"];
-      fetch("https://api.github.com/users/" + USER + "/repos?per_page=100&type=owner")
-        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-        .then(function (repos) {
-          var owned = repos.filter(function (r) { return !r.fork; });
-          var stars = owned.reduce(function (a, r) { return a + (r.stargazers_count || 0); }, 0);
-          document.getElementById("st-stars").textContent = fmt(stars);
-
-          // Top languages across owned repos
-          var counts = {}, total = 0;
-          owned.forEach(function (r) {
-            if (!r.language) return;
-            counts[r.language] = (counts[r.language] || 0) + 1;
-            total++;
-          });
-          var arr = Object.keys(counts)
-            .map(function (k) { return { name: k, n: counts[k] }; })
-            .sort(function (a, b) { return b.n - a.n; });
-          if (!total || !arr.length) return;
-          var top = arr.slice(0, 6);
-          var shown = top.reduce(function (a, x) { return a + x.n; }, 0);
+        // Top languages
+        var langs = gh.languages || [];
+        if (langs.length) {
+          var top = langs.slice(0, 6);
+          var shown = top.reduce(function (a, x) { return a + (x.pct || 0); }, 0) || 1;
           var bar = "", leg = "";
           top.forEach(function (x, i) {
-            var pct = Math.round((x.n / total) * 100);
-            var w = (x.n / shown) * 100;
             var col = LANG_COLORS[i % LANG_COLORS.length];
-            bar += '<span class="lang-seg" style="width:' + w + "%;background:" + col +
-              '" title="' + esc(x.name) + " · " + pct + '%"></span>';
+            bar += '<span class="lang-seg" style="width:' + ((x.pct / shown) * 100) +
+              "%;background:" + col + '"></span>';
             leg += '<span class="lang-item"><span class="lang-dot" style="background:' + col +
-              '"></span>' + esc(x.name) + ' <span class="lang-pct">' + pct + "%</span></span>";
+              '"></span>' + esc(x.name) + ' <span class="lang-pct">' + x.pct + "%</span></span>";
           });
           document.getElementById("lang-bar").innerHTML = bar;
           document.getElementById("lang-legend").innerHTML = leg;
           document.getElementById("langs").hidden = false;
-        })
-        .catch(function () {});
+        }
 
-      // --- Current focus (Minifocus) ---
-      // --- Latest blog posts (cached by GitHub Action -> data/feeds.json) ---
+        // Recent commits
+        var commits = gh.commits || [];
+        if (commits.length) {
+          log.innerHTML = commits.slice(0, 9).map(function (r) {
+            return '<li><span class="repo">' + esc(r.repo) + "</span>" +
+              '<span class="msg">' + esc(r.msg) + "</span>" +
+              '<span class="ago">' + esc(r.time ? timeAgo(r.time) : "") + "</span></li>";
+          }).join("");
+        } else {
+          log.innerHTML = '<li class="empty">No recent public activity.</li>';
+        }
+      }
+
+      function renderDeployments(deps) {
+        if (!deps || !deps.length) return;
+        document.getElementById("deploys").innerHTML = deps.slice(0, 6).map(function (d) {
+          var st = String(d.state || "").toUpperCase();
+          var cls = st === "READY" ? "ok" : st === "ERROR" ? "err"
+            : (st === "BUILDING" || st === "QUEUED") ? "warn" : "";
+          var label = st ? st.charAt(0) + st.slice(1).toLowerCase() : "—";
+          var text = d.ref ? (d.ref + (d.msg ? " — " + d.msg : "")) : (d.msg || "deploy");
+          var inner = '<span class="repo">' + esc(d.project || "—") + "</span>" +
+            '<span class="msg">' + esc(text) + "</span>" +
+            '<span class="dep-state ' + cls + '">' + esc(label) + "</span>" +
+            '<span class="ago">' + esc(d.ts ? timeAgo(d.ts) : "") + "</span>";
+          return d.url
+            ? '<li><a class="dep-link" href="' + esc(d.url) + '">' + inner + "</a></li>"
+            : "<li>" + inner + "</li>";
+        }).join("");
+        document.getElementById("deploy-panel").hidden = false;
+      }
+
+      function renderFeeds(feeds) {
+        document.querySelectorAll("[data-feed]").forEach(function (el) {
+          var f = feeds[el.getAttribute("data-feed")];
+          if (!f || !f.title) return;
+          var slot = el.querySelector(".feed-latest");
+          if (!slot) return;
+          var when = "";
+          if (f.date) {
+            var d = new Date(f.date);
+            if (!isNaN(d)) when = " · " + d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+          }
+          slot.innerHTML = '<span class="fl-arrow">›</span>' +
+            '<span class="fl-title">' + esc(f.title) + "</span>" +
+            '<span class="fl-date">' + esc(when) + "</span>";
+          slot.hidden = false;
+        });
+      }
+
       fetch("/data/feeds.json", { cache: "no-cache" })
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function (data) {
-          if (data && data.focus) {
-            document.getElementById("focus").textContent = String(data.focus).trim();
+          data = data || {};
+          if (data.focus) document.getElementById("focus").textContent = String(data.focus).trim();
+          renderFeeds(data.feeds || {});
+          renderDeployments(data.deployments);
+          renderGitHub(data.github);
+          if (data.github) {
+            document.getElementById("act-live").textContent = "· synced " +
+              new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
           }
-          var feeds = (data && data.feeds) || {};
-          document.querySelectorAll("[data-feed]").forEach(function (el) {
-            var f = feeds[el.getAttribute("data-feed")];
-            if (!f || !f.title) return;
-            var slot = el.querySelector(".feed-latest");
-            if (!slot) return;
-            var when = "";
-            if (f.date) {
-              var d = new Date(f.date);
-              if (!isNaN(d)) when = " · " + d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
-            }
-            slot.innerHTML = '<span class="fl-arrow">›</span>' +
-              '<span class="fl-title">' + esc(f.title) + "</span>" +
-              '<span class="fl-date">' + esc(when) + "</span>";
-            slot.hidden = false;
-          });
-
-          // Recent deployments (Vercel), cached server-side by the Action
-          var deps = (data && data.deployments) || [];
-          if (deps.length) {
-            var dl = document.getElementById("deploys");
-            dl.innerHTML = deps.slice(0, 6).map(function (d) {
-              var st = String(d.state || "").toUpperCase();
-              var cls = st === "READY" ? "ok" : st === "ERROR" ? "err"
-                : (st === "BUILDING" || st === "QUEUED") ? "warn" : "";
-              var label = st ? st.charAt(0) + st.slice(1).toLowerCase() : "—";
-              var text = d.ref ? (d.ref + (d.msg ? " — " + d.msg : "")) : (d.msg || "deploy");
-              var inner = '<span class="repo">' + esc(d.project || "—") + "</span>" +
-                '<span class="msg">' + esc(text) + "</span>" +
-                '<span class="dep-state ' + cls + '">' + esc(label) + "</span>" +
-                '<span class="ago">' + esc(d.ts ? timeAgo(d.ts) : "") + "</span>";
-              return d.url
-                ? '<li><a class="dep-link" href="' + esc(d.url) + '">' + inner + "</a></li>"
-                : "<li>" + inner + "</li>";
-            }).join("");
-            document.getElementById("deploy-panel").hidden = false;
-          }
-        })
-        .catch(function () {});
-
-      // --- Recent commits / activity (GitHub public events, CORS-enabled) ---
-      var log = document.getElementById("log");
-      fetch("https://api.github.com/users/" + USER + "/events/public?per_page=40", {
-        headers: { Accept: "application/vnd.github+json" }
-      })
-        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-        .then(function (events) {
-          var rows = [];
-          for (var i = 0; i < events.length && rows.length < 9; i++) {
-            var ev = events[i];
-            var repo = (ev.repo && ev.repo.name ? ev.repo.name.split("/").pop() : "");
-            var msg = null;
-            if (ev.type === "PushEvent" && ev.payload.commits && ev.payload.commits.length) {
-              msg = ev.payload.commits[ev.payload.commits.length - 1].message.split("\n")[0];
-            } else if (ev.type === "CreateEvent" && ev.payload.ref_type === "repository") {
-              msg = "created repository";
-            } else if (ev.type === "CreateEvent" && ev.payload.ref_type === "tag") {
-              msg = "tagged " + ev.payload.ref;
-            } else if (ev.type === "ReleaseEvent") {
-              msg = "released " + (ev.payload.release ? ev.payload.release.tag_name : "");
-            } else if (ev.type === "PullRequestEvent") {
-              var pr = ev.payload.pull_request || {};
-              var act = ev.payload.action;
-              if (act === "closed" && pr.merged) act = "merged";
-              msg = act + " PR" + (pr.number ? " #" + pr.number : "") +
-                (pr.title ? ": " + pr.title : "");
-            } else if (ev.type === "IssuesEvent") {
-              var iss = ev.payload.issue || {};
-              msg = ev.payload.action + " issue" + (iss.number ? " #" + iss.number : "") +
-                (iss.title ? ": " + iss.title : "");
-            }
-            if (msg) rows.push({ repo: repo, msg: msg, ago: timeAgo(ev.created_at) });
-          }
-          if (!rows.length) {
-            log.innerHTML = '<li class="empty">No recent public activity.</li>';
-            return;
-          }
-          log.innerHTML = rows.map(function (r) {
-            return '<li><span class="repo">' + esc(r.repo) + '</span>' +
-              '<span class="msg">' + esc(r.msg) + '</span>' +
-              '<span class="ago">' + esc(r.ago) + '</span></li>';
-          }).join("");
-          document.getElementById("act-live").textContent = "· synced " +
-            new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         })
         .catch(function () {
-          log.innerHTML = '<li class="empty">Activity unavailable right now.</li>';
+          log.innerHTML = '<li class="empty">Data unavailable right now.</li>';
         });
     })();
   </script>
