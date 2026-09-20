@@ -1,45 +1,70 @@
 # chrishannah.dev
 
-A base site and home for my development projects, experiments, and artifacts.
-Served with [GitHub Pages](https://pages.github.com/) from this repository, and
-(once DNS resolves) at [chrishannah.dev](https://chrishannah.dev).
+A "global situation dashboard" — a single command-center homepage for my apps,
+web services, open source, and writing. Served with
+[GitHub Pages](https://pages.github.com/) and (once DNS resolves) at
+[chrishannah.dev](https://chrishannah.dev).
 
 ## How it works
 
 - Plain static HTML and CSS — no build step. What's committed is what's served.
-- `.nojekyll` disables Jekyll processing, so self-contained artifacts (including
-  files/folders whose names start with `_`) are served exactly as-is.
+- A rotating globe is drawn with [cobe](https://github.com/shuding/cobe), loaded
+  from a CDN. If the CDN or WebGL is unavailable, a CSS fallback globe is shown.
+- Fonts are IBM Plex Mono / Sans from Google Fonts.
+- `.nojekyll` disables Jekyll so self-contained artifacts (including files whose
+  names start with `_`) are served exactly as-is.
 - `CNAME` points the site at the `chrishannah.dev` custom domain.
+- Tinylytics analytics is embedded at the bottom of `index.html` (remove that
+  one `<script>` line to disable).
 
 ## Layout
 
-| File / folder   | Purpose                                             |
-| --------------- | --------------------------------------------------- |
-| `index.html`    | Landing page — links to projects and artifacts.     |
-| `style.css`     | Shared styles (light/dark aware, responsive).       |
-| `404.html`      | Custom not-found page.                               |
-| `CNAME`         | Custom domain configuration.                        |
-| `.nojekyll`     | Serve files verbatim, no Jekyll build.              |
+| File / folder | Purpose                                          |
+| ------------- | ------------------------------------------------ |
+| `index.html`  | The dashboard — panels, globe, ticker.           |
+| `style.css`   | HUD styling (dark, responsive).                  |
+| `404.html`    | Themed not-found page.                            |
+| `CNAME`       | Custom domain configuration.                     |
+| `.nojekyll`   | Serve files verbatim, no Jekyll build.           |
 
-## Adding a project or artifact
+The dashboard panels are:
 
-1. Drop a self-contained project into its own folder, e.g. `my-thing/`, with an
-   `index.html` inside. It will be available at `/my-thing/`.
-2. Add a card linking to it in `index.html` by copying a `<li class="card">`
-   block inside the project grid:
+- **01 Operator / 02 Comms / 03 Feeds** — bio, social links, and blogs.
+- **00 Deployments** — the globe and live system count.
+- **04 Flagship** — Text Case and its platforms.
+- **05 Web Services** — the live `.app` tools.
+- **06 Repositories** — open-source projects on GitHub.
 
-   ```html
-   <li>
-     <a class="card" href="/my-thing/">
-       <h3 class="card-title">My Thing</h3>
-       <p class="card-desc">A short description of what it does.</p>
-     </a>
-   </li>
-   ```
+## Adding a project
+
+Add a row to the relevant panel in `index.html`.
+
+A web service or repository row (panels 05 / 06):
+
+```html
+<a class="sys" href="https://example.com" data-system>
+  <span class="sys-name">Name</span>
+  <span class="sys-desc">Short one-line description.</span>
+  <span class="sys-tag live">Live</span> <!-- or: soon | store | (omit class)=Repo -->
+</a>
+```
+
+`data-system` includes the row in the "systems online" count on the globe.
+
+A writing feed (panel 03):
+
+```html
+<a class="feed" href="https://example.com">
+  <span class="feed-name">example.com</span>
+  <div class="feed-desc">What it is.</div>
+</a>
+```
+
+To host a self-contained artifact, drop it in its own folder (e.g.
+`my-thing/index.html`) — it will be served at `/my-thing/` — and link to it
+from a panel.
 
 ## Local preview
-
-Any static file server works, for example:
 
 ```sh
 python3 -m http.server 8000
