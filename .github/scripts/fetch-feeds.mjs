@@ -124,6 +124,23 @@ for (const [site, urls] of Object.entries(SITES)) {
   }
 }
 
+// Current focus (Minifocus) — cached server-side so it works even if the
+// endpoint doesn't allow cross-origin requests from the browser.
+try {
+  const r = await fetch("https://minifocus.app/embed/chris.txt", {
+    headers: { "User-Agent": UA }
+  });
+  if (r.ok) {
+    const focus = (await r.text()).replace(/<[^>]*>/g, "").trim();
+    if (focus) {
+      out.focus = focus;
+      console.log(`ok   focus -> ${focus}`);
+    }
+  }
+} catch {
+  console.log("miss focus");
+}
+
 await mkdir("data", { recursive: true });
 await writeFile("data/feeds.json", JSON.stringify(out, null, 2) + "\n");
 console.log(`wrote data/feeds.json (${Object.keys(out.feeds).length} feeds)`);

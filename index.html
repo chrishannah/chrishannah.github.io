@@ -470,14 +470,16 @@
         .catch(function () {});
 
       // --- Current focus (Minifocus) ---
+      // Try the live endpoint (works if it allows CORS from this domain); the
+      // GitHub Action also caches it into data/feeds.json as a fallback.
+      function setFocus(t) {
+        t = (t || "").replace(/<[^>]*>/g, "").trim();
+        if (t) document.getElementById("focus").textContent = t;
+      }
       if (FOCUS_URL) {
-        fetch(FOCUS_URL)
-          .then(function (r) { if (!r.ok) throw 0; var ct = r.headers.get("content-type") || ""; return ct.indexOf("json") > -1 ? r.json() : r.text(); })
-          .then(function (d) {
-            var text = typeof d === "string" ? d : (d.focus || d.status || d.text || d.title || "");
-            text = String(text).trim();
-            if (text) document.getElementById("focus").textContent = text;
-          })
+        fetch(FOCUS_URL, { cache: "no-store" })
+          .then(function (r) { return r.text(); })
+          .then(setFocus)
           .catch(function () {});
       }
 
@@ -485,6 +487,7 @@
       fetch("/data/feeds.json", { cache: "no-cache" })
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function (data) {
+          if (data && data.focus) setFocus(data.focus);
           var feeds = (data && data.feeds) || {};
           document.querySelectorAll("[data-feed]").forEach(function (el) {
             var f = feeds[el.getAttribute("data-feed")];
@@ -525,9 +528,15 @@
             } else if (ev.type === "ReleaseEvent") {
               msg = "released " + (ev.payload.release ? ev.payload.release.tag_name : "");
             } else if (ev.type === "PullRequestEvent") {
-              msg = ev.payload.action + " PR: " + ev.payload.pull_request.title;
+              var pr = ev.payload.pull_request || {};
+              var act = ev.payload.action;
+              if (act === "closed" && pr.merged) act = "merged";
+              msg = act + " PR" + (pr.number ? " #" + pr.number : "") +
+                (pr.title ? ": " + pr.title : "");
             } else if (ev.type === "IssuesEvent") {
-              msg = ev.payload.action + " issue: " + ev.payload.issue.title;
+              var iss = ev.payload.issue || {};
+              msg = ev.payload.action + " issue" + (iss.number ? " #" + iss.number : "") +
+                (iss.title ? ": " + iss.title : "");
             }
             if (msg) rows.push({ repo: repo, msg: msg, ago: timeAgo(ev.created_at) });
           }
