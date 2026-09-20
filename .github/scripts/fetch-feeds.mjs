@@ -4,31 +4,21 @@
 
 import { writeFile, mkdir } from "node:fs/promises";
 
+const feedCandidates = (host) => [
+  `https://${host}/feed/posts/index.xml`,
+  `https://${host}/feed/index.xml`,
+  `https://${host}/feed.xml`,
+  `https://${host}/feed.json`,
+  `https://${host}/feed/`,
+  `https://${host}/index.xml`,
+  `https://${host}/atom.xml`,
+  `https://${host}/rss.xml`
+];
+
 const SITES = {
-  "chrishannah.me": [
-    "https://chrishannah.me/feed.xml",
-    "https://chrishannah.me/feed/",
-    "https://chrishannah.me/feed.json",
-    "https://chrishannah.me/index.xml",
-    "https://chrishannah.me/atom.xml",
-    "https://chrishannah.me/rss.xml"
-  ],
-  "journeysthroughglass.net": [
-    "https://journeysthroughglass.net/feed.xml",
-    "https://journeysthroughglass.net/feed/",
-    "https://journeysthroughglass.net/feed.json",
-    "https://journeysthroughglass.net/index.xml",
-    "https://journeysthroughglass.net/atom.xml",
-    "https://journeysthroughglass.net/rss.xml"
-  ],
-  "codeandculture.uk": [
-    "https://codeandculture.uk/feed.xml",
-    "https://codeandculture.uk/feed/",
-    "https://codeandculture.uk/feed.json",
-    "https://codeandculture.uk/index.xml",
-    "https://codeandculture.uk/atom.xml",
-    "https://codeandculture.uk/rss.xml"
-  ]
+  "chrishannah.me": feedCandidates("chrishannah.me"),
+  "journeysthroughglass.net": feedCandidates("journeysthroughglass.net"),
+  "codeandculture.uk": feedCandidates("codeandculture.uk")
 };
 
 const UA = "chrishannah.dev-feed-bot (+https://chrishannah.dev)";
