@@ -1,70 +1,86 @@
 {
-  "updated": "2026-09-20T11:59:52.181Z",
+  "updated": "2026-09-20T12:05:21.222Z",
   "feeds": {},
   "deployments": [
     {
-      "project": "miniroll",
+      "project": "blog",
       "state": "READY",
-      "url": "https://miniroll-nrh14j2p8-chris-hannahs-projects.vercel.app",
-      "ts": 1789230505409,
-      "ref": "claude/dreamy-euler-mz2h77",
-      "msg": "Fix build: avoid spreading a Set in the auth audit"
+      "url": "https://blog-jsjy4jsae-chris-hannahs-projects.vercel.app",
+      "ts": 1788989989282,
+      "ref": "master",
+      "msg": "duo"
     },
     {
-      "project": "miniroll",
-      "state": "ERROR",
-      "url": "https://miniroll-mhv4ncjiw-chris-hannahs-projects.vercel.app",
-      "ts": 1789230272067,
-      "ref": "claude/dreamy-euler-mz2h77",
-      "msg": "Add read-only passwordless-readiness audit endpoint"
-    },
-    {
-      "project": "miniroll",
-      "state": "CANCELED",
-      "url": "https://miniroll-k0bt6q7nn-chris-hannahs-projects.vercel.app",
-      "ts": 1789210295333,
-      "ref": "claude/dreamy-euler-mz2h77",
-      "msg": "Update CLAUDE.md for the custom passwordless auth"
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-hzpo2wvm8-chris-hannahs-projects.vercel.app",
+      "ts": 1788112794734,
+      "ref": "master",
+      "msg": "fix: remove Notes link from nav bars"
     },
     {
       "project": "miniroll",
       "state": "READY",
-      "url": "https://miniroll-j4mtch3v0-chris-hannahs-projects.vercel.app",
-      "ts": 1789209824531,
-      "ref": "claude/dreamy-euler-mz2h77",
-      "msg": "Surface why a sign-up can't complete after code verification"
+      "url": "https://miniroll-84ehoeumw-chris-hannahs-projects.vercel.app",
+      "ts": 1787446088195,
+      "ref": "master",
+      "msg": "Merge pull request #58 from chrishannah/feed-and-usage-tracking"
+    },
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-4e68ojueu-chris-hannahs-projects.vercel.app",
+      "ts": 1787419373251,
+      "ref": "master",
+      "msg": "new post"
     },
     {
       "project": "miniroll",
       "state": "READY",
-      "url": "https://miniroll-ggbm3va17-chris-hannahs-projects.vercel.app",
-      "ts": 1789209330488,
-      "ref": "claude/dreamy-euler-mz2h77",
-      "msg": "Restore native account management (change email, delete account)"
+      "url": "https://miniroll-bfxtsjodt-chris-hannahs-projects.vercel.app",
+      "ts": 1787419158578,
+      "ref": "master",
+      "msg": "Merge pull request #57 from chrishannah/fix-signed-in-mobile-nav"
     },
     {
       "project": "miniroll",
       "state": "READY",
-      "url": "https://miniroll-1xjps3niy-chris-hannahs-projects.vercel.app",
-      "ts": 1789208980977,
-      "ref": "claude/dreamy-euler-mz2h77",
-      "msg": "Redirect signed-in users away from the auth pages"
+      "url": "https://miniroll-g7lc3qohn-chris-hannahs-projects.vercel.app",
+      "ts": 1787414243669,
+      "ref": "master",
+      "msg": "Merge pull request #56 from chrishannah/ui-refresh-tokens"
     },
     {
       "project": "miniroll",
       "state": "READY",
-      "url": "https://miniroll-58hg14b34-chris-hannahs-projects.vercel.app",
-      "ts": 1789207120373,
-      "ref": "claude/dreamy-euler-mz2h77",
-      "msg": "Support magic-link sign-in alongside the email code"
+      "url": "https://miniroll-dbiwzk3tn-chris-hannahs-projects.vercel.app",
+      "ts": 1787397945115,
+      "ref": "master",
+      "msg": "Merge pull request #55 from chrishannah/mantis/daily-operator-20260822-homepage-"
+    },
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-5f1dbzgpx-chris-hannahs-projects.vercel.app",
+      "ts": 1787345620408,
+      "ref": "master",
+      "msg": "spelling fix"
+    },
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-3prlnrycp-chris-hannahs-projects.vercel.app",
+      "ts": 1787342508879,
+      "ref": "master",
+      "msg": "post: Do I Need an IDE Anymore?"
     },
     {
       "project": "miniroll",
       "state": "READY",
-      "url": "https://miniroll-7mjd9hyq3-chris-hannahs-projects.vercel.app",
-      "ts": 1789206451864,
-      "ref": "claude/dreamy-euler-mz2h77",
-      "msg": "Replace Clerk's prebuilt UI with native Miniroll auth"
+      "url": "https://miniroll-ccxszrfo7-chris-hannahs-projects.vercel.app",
+      "ts": 1786487436675,
+      "ref": "master",
+      "msg": "Merge pull request #54 from chrishannah/mantis/daily-operator-20260810-rss-feed"
     }
   ]
 }
