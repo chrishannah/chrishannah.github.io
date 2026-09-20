@@ -542,7 +542,7 @@ body::before {
 .sys:hover {
   background: var(--panel-2);
 }
-.sys:hover .sys-name {
+.sys:hover > .sys-name {
   color: var(--accent);
 }
 .sys-name {
@@ -550,6 +550,11 @@ body::before {
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   transition: color 0.15s;
+  color: inherit;
+  text-decoration: none;
+}
+a.sys-name:hover {
+  color: var(--accent);
 }
 .sys-desc {
   color: var(--fg-faint);
@@ -572,6 +577,14 @@ body::before {
 .sys-tag.live { color: var(--live); border-color: rgba(52, 211, 153, 0.35); }
 .sys-tag.soon { color: var(--warn); border-color: rgba(245, 166, 35, 0.35); }
 .sys-tag.store { color: var(--accent-2); border-color: rgba(56, 189, 248, 0.35); }
+a.sys-tag {
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+a.sys-tag:hover {
+  background: var(--panel-2);
+  border-color: currentColor;
+}
 
 /* Feeds (writing) --------------------------------------------------------- */
 
