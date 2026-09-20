@@ -3,53 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chris Hannah — Dev</title>
-  <meta name="description" content="A home for Chris Hannah's development projects, experiments, and artifacts." />
+  <title>Chris Hannah</title>
+  <meta name="description" content="Chris Hannah — Senior Software Engineer. I build small, focused apps and write about code, tools, and culture." />
 
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Chris Hannah — Dev" />
-  <meta property="og:description" content="A home for development projects, experiments, and artifacts." />
+  <meta property="og:title" content="Chris Hannah" />
+  <meta property="og:description" content="Senior Software Engineer. I build small, focused apps and write about code, tools, and culture." />
   <meta property="og:url" content="https://chrishannah.dev" />
+  <meta name="theme-color" content="#16161a" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%99%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%8C%A8%EF%B8%8F%3C/text%3E%3C/svg%3E" />
+  <link rel="me" href="https://hachyderm.io/@chrishannah" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="site-header">
-    <div class="wrap">
-      <a class="brand" href="/">chrishannah<span class="brand-accent">.dev</span></a>
-      <nav class="site-nav" aria-label="Primary">
-        <a href="https://chrishannah.me">Blog</a>
-        <a href="https://github.com/chrishannah">GitHub</a>
-      </nav>
-    </div>
-  </header>
-
   <main id="main" class="wrap">
-    <section class="intro">
-      <h1>Development projects &amp; artifacts</h1>
+    <!-- Hero -------------------------------------------------------------- -->
+    <header class="hero">
+      <h1>Chris Hannah</h1>
       <p class="lead">
-        This is where I keep the things I build — experiments, tools, and
-        one-off artifacts. Live demos and source, all in one place.
+        Senior Software Engineer from the UK. I build small, focused apps and
+        write about code, tools, and the culture around them &mdash; and drink
+        a fair amount of Guinness along the way.
       </p>
+      <nav class="social" aria-label="Social links">
+        <a href="https://chrishannah.me" class="social-link">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h9A1.5 1.5 0 0 1 16 5.5V18a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V5.5Z"/><path d="M16 9h2.5A1.5 1.5 0 0 1 20 10.5V18a2 2 0 0 1-2 2"/><path d="M7 8h6M7 11h6M7 14h4"/></svg>
+          <span>Blog</span>
+        </a>
+        <a href="https://hachyderm.io/@chrishannah" rel="me" class="social-link">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 9.3c0-3.6-2.4-4.7-2.4-4.7C16.9 4 14.9 3.8 12.8 3.8h-.05c-2.1 0-4.1.2-5.3.8 0 0-2.4 1.1-2.4 4.7 0 .8 0 1.7.05 2.6.15 3.1.65 6.1 3.5 6.9 1.3.35 2.5.45 3.4.4 1.5-.08 2.35-.55 2.35-.55l-.05-1.1s-1.05.35-2.25.3c-1.2-.04-2.45-.13-2.65-1.6a3 3 0 0 1-.03-.4s1.2.3 2.7.35c.9.05 1.8-.05 2.7-.15 1.5-.2 2.85-1.1 3-1.95.25-1.3.25-3.3.25-3.3Zm-2.5 4.3h-1.55v-3.9c0-.8-.35-1.2-1.05-1.2-.75 0-1.15.5-1.15 1.5v2.1h-1.55v-2.1c0-1-.4-1.5-1.15-1.5-.7 0-1.05.4-1.05 1.2v3.9H7.95V9.6c0-.8.2-1.45.6-1.9.42-.45.95-.68 1.62-.68.77 0 1.35.3 1.73.9l.35.65.35-.65c.38-.6.96-.9 1.73-.9.67 0 1.2.23 1.62.68.4.45.6 1.1.6 1.9v4Z"/></svg>
+          <span>Mastodon</span>
+        </a>
+        <a href="https://micro.chrishannah.me" class="social-link">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4c4.4 0 8 2.9 8 6.6 0 3.6-3.6 6.5-8 6.5-.9 0-1.7-.1-2.5-.3-.7.5-2 1.3-3.8 1.6-.3 0-.5-.2-.3-.5.3-.4.9-1.2 1-2C4.3 14.4 4 12.6 4 10.6 4 6.9 7.6 4 12 4Z"/></svg>
+          <span>Micro.blog</span>
+        </a>
+        <a href="https://x.com/chrishannah" class="social-link">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h4.2l4 5.6L17 4h2.6l-6.3 7.5L20 20h-4.2l-4.3-6L6 20H3.4l6.6-7.9L4 4Zm2.9 1.4 9.5 13.2h1.4L8.3 5.4H6.9Z"/></svg>
+          <span>X</span>
+        </a>
+        <a href="https://github.com/chrishannah" class="social-link">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2C6.5 2 2 6.6 2 12.3c0 4.5 2.9 8.4 6.8 9.7.5.1.7-.2.7-.5v-1.9c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.9.1-.7.3-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.7 1a9.3 9.3 0 0 1 5 0c1.9-1.3 2.7-1 2.7-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.3 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.1 10.1 0 0 0 22 12.3C22 6.6 17.5 2 12 2Z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="mailto:me@chrishannah.me" class="social-link">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5v-11Z"/><path d="m4 7 8 6 8-6"/></svg>
+          <span>Email</span>
+        </a>
+      </nav>
+    </header>
+
+    <!-- Apps ------------------------------------------------------------- -->
+    <section aria-labelledby="apps-heading">
+      <h2 id="apps-heading" class="section-title">Apps</h2>
+      <ul class="card-grid" role="list">
+        <li>
+          <a class="card" href="https://textcase.app">
+            <h3 class="card-title">Text Case</h3>
+            <p class="card-desc">
+              A text transformation utility for iOS, macOS, and the web &mdash;
+              title case by every major style guide, encoding, and more.
+            </p>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="https://miniroll.app">
+            <h3 class="card-title">Miniroll</h3>
+            <p class="card-desc">
+              Create, manage, share, and embed blogrolls, with combined RSS
+              feeds and OPML import/export.
+            </p>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="https://miniship.app">
+            <h3 class="card-title">Miniship</h3>
+            <p class="card-desc">
+              Create, manage, and embed changelogs for your projects.
+            </p>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="https://minifocus.app">
+            <h3 class="card-title">Minifocus</h3>
+            <p class="card-desc">
+              Set a central &ldquo;current focus&rdquo; and embed it anywhere,
+              no rebuild required.
+            </p>
+          </a>
+        </li>
+      </ul>
     </section>
 
-    <section aria-labelledby="projects-heading">
-      <h2 id="projects-heading" class="section-title">Projects</h2>
-
+    <!-- Writing ---------------------------------------------------------- -->
+    <section aria-labelledby="writing-heading">
+      <h2 id="writing-heading" class="section-title">Writing</h2>
       <ul class="card-grid" role="list">
-        <!--
-          Add a project by copying one <li class="card"> block.
-          Self-contained artifacts can live in their own folder
-          (e.g. /my-thing/) and be linked here.
-        -->
-        <li class="card card--placeholder">
-          <h3 class="card-title">Nothing here yet</h3>
-          <p class="card-desc">
-            The first projects will land here soon. Check back shortly.
-          </p>
+        <li>
+          <a class="card" href="https://chrishannah.me">
+            <h3 class="card-title">chrishannah.me</h3>
+            <p class="card-desc">
+              My main blog &mdash; long-form writing on software, tools, and
+              culture.
+            </p>
+          </a>
+        </li>
+        <li>
+          <a class="card" href="https://micro.chrishannah.me">
+            <h3 class="card-title">Micro.blog</h3>
+            <p class="card-desc">
+              Short posts, links, and everything in between.
+            </p>
+          </a>
         </li>
       </ul>
     </section>
@@ -64,5 +133,8 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
+
+  <!-- Analytics (Tinylytics) — remove if unwanted -->
+  <script defer src="https://tinylytics.app/embed/_WLqQ_gWymW1kmjy_GQt.js"></script>
 </body>
 </html>

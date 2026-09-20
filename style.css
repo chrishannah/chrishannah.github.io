@@ -11,10 +11,10 @@
   --border: #e5e5e2;
   --accent: #c2410c;
   --card-bg: #ffffff;
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
 
   --radius: 12px;
-  --content-width: 46rem;
+  --content-width: 48rem;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
@@ -29,7 +29,7 @@
     --border: #2c2c34;
     --accent: #fb923c;
     --card-bg: #1e1e24;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.25);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -88,77 +88,83 @@ a:hover {
   left: 0;
 }
 
-/* Header ------------------------------------------------------------------ */
-
-.site-header {
-  border-bottom: 1px solid var(--border);
-}
-
-.site-header .wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-block: 1.1rem;
-}
-
-.brand {
-  font-weight: 700;
-  font-size: 1.05rem;
-  color: var(--fg);
-  letter-spacing: -0.01em;
-}
-
-.brand:hover {
-  text-decoration: none;
-}
-
-.brand-accent {
-  color: var(--accent);
-}
-
-.site-nav {
-  display: flex;
-  gap: 1.25rem;
-  font-size: 0.95rem;
-}
-
-.site-nav a {
-  color: var(--fg-muted);
-}
-
-.site-nav a:hover {
-  color: var(--fg);
-  text-decoration: none;
-}
-
-/* Intro ------------------------------------------------------------------- */
-
 main {
   flex: 1;
-  padding-block: 3.5rem 4rem;
+  padding-block: 4rem 3.5rem;
 }
 
-.intro h1 {
-  font-size: clamp(1.9rem, 5vw, 2.6rem);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  margin: 0 0 0.75rem;
+/* Hero -------------------------------------------------------------------- */
+
+.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 3.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin: 0 0 1rem;
 }
 
 .lead {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: var(--fg-muted);
   margin: 0;
-  max-width: 34rem;
+  max-width: 38rem;
 }
+
+/* Social links ------------------------------------------------------------ */
+
+.social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.75rem;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem 0.45rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--fg);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.social-link:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--bg-subtle);
+  text-decoration: none;
+}
+
+.social-link svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* Solid glyphs (Mastodon, X, GitHub) read better filled */
+.social-link[rel="me"] svg,
+.social-link[href*="x.com"] svg,
+.social-link[href*="github"] svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Sections ---------------------------------------------------------------- */
 
 .section-title {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--fg-muted);
-  margin: 3.25rem 0 1.25rem;
+  margin: 3.5rem 0 1.25rem;
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--border);
 }
@@ -175,18 +181,15 @@ main {
 }
 
 .card {
+  display: block;
+  height: 100%;
   background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.25rem 1.35rem;
+  padding: 1.3rem 1.4rem;
+  color: inherit;
   transition: transform 0.15s ease, box-shadow 0.15s ease,
     border-color 0.15s ease;
-}
-
-a.card,
-.card a {
-  color: inherit;
-  text-decoration: none;
 }
 
 a.card:hover {
@@ -206,11 +209,6 @@ a.card:hover {
   margin: 0;
   color: var(--fg-muted);
   font-size: 0.95rem;
-}
-
-.card--placeholder {
-  border-style: dashed;
-  background: var(--bg-subtle);
 }
 
 /* Footer ------------------------------------------------------------------ */

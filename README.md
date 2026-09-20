@@ -29,7 +29,7 @@ Served with [GitHub Pages](https://pages.github.com/) from this repository, and
    block inside the project grid:
 
    ```html
-   <li class="card">
+   <li>
      <a class="card" href="/my-thing/">
        <h3 class="card-title">My Thing</h3>
        <p class="card-desc">A short description of what it does.</p>
