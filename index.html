@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chris Hannah — Situation Dashboard</title>
-  <meta name="description" content="Chris Hannah — Senior Software Engineer. Apps, web services, open source, and writing, monitored from one dashboard." />
+  <title>Chris Hannah — Dashboard</title>
+  <meta name="description" content="Chris Hannah — Senior Software Engineer. Apps, web services, open source, and writing, with live GitHub activity." />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Chris Hannah" />
@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://chrishannah.dev" />
   <meta name="theme-color" content="#05070c" />
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='none' stroke='%232dd4ee' stroke-width='6'/%3E%3Cellipse cx='50' cy='50' rx='42' ry='16' fill='none' stroke='%232dd4ee' stroke-width='4'/%3E%3Cline x1='8' y1='50' x2='92' y2='50' stroke='%232dd4ee' stroke-width='4'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='12' y='16' width='76' height='56' rx='6' fill='none' stroke='%232dd4ee' stroke-width='7'/%3E%3Cpath d='M24 58l14-16 12 10 16-22' fill='none' stroke='%232dd4ee' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
   <link rel="me" href="https://hachyderm.io/@chrishannah" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,17 +28,21 @@
   <header class="topbar">
     <div class="brand">
       <span class="mark">CHRISHANNAH<span class="dim">.DEV</span></span>
-      <span class="sub">Global Situation Dashboard</span>
+      <span class="sub">Developer Dashboard</span>
     </div>
     <div class="readouts">
       <div class="readout">
-        <span class="label">SYS TIME</span>
-        <span class="val" id="clock">--:--:-- UTC</span>
+        <span class="label">London</span>
+        <span class="val" id="clock-uk">--:--:--</span>
       </div>
       <div class="readout">
-        <span class="label">STATUS</span>
+        <span class="label">UTC</span>
+        <span class="val" id="clock-utc">--:--:--</span>
+      </div>
+      <div class="readout">
+        <span class="label">Status</span>
         <span class="dot" aria-hidden="true"></span>
-        <span class="val">OPERATIONAL</span>
+        <span class="val">Operational</span>
       </div>
     </div>
   </header>
@@ -59,7 +63,6 @@
         </p>
         <div class="meta-rows">
           <div><span class="k">Base</span><span class="v">United Kingdom</span></div>
-          <div><span class="k">Coords</span><span class="v">54.0&deg;N 2.0&deg;W</span></div>
           <div><span class="k">Focus</span><span class="v">Apps &middot; Tools &middot; Writing</span></div>
         </div>
       </section>
@@ -122,30 +125,39 @@
       </section>
     </div>
 
-    <!-- CENTER (globe) --------------------------------------------------- -->
+    <!-- CENTER — live GitHub activity ------------------------------------ -->
     <div class="col">
-      <section class="panel globe-panel" aria-labelledby="globe-h">
+      <section class="panel activity-panel" aria-labelledby="act-h">
         <div class="panel-h">
-          <span class="h-left"><span class="h-idx">00</span> <span id="globe-h">Deployments</span></span>
-          <span class="h-status"><span class="dot" aria-hidden="true"></span> Worldwide</span>
+          <span class="h-left"><span class="h-idx">00</span> <span id="act-h">GitHub Activity</span></span>
+          <span class="h-status"><span class="dot" aria-hidden="true"></span> Live</span>
         </div>
-        <div class="globe-stage">
-          <div class="globe-wrap">
-            <div class="globe-fallback" aria-hidden="true"></div>
-            <canvas id="globe" aria-hidden="true"></canvas>
-            <div class="globe-overlay" aria-hidden="true">
-              <div class="tl"><span class="big" id="sys-count">--</span>Systems online</div>
-              <div class="tr">Base<br />UK · 54.0N</div>
-              <div class="bl">Signal<br />Nominal</div>
-              <div class="br">Uplink<br />Secure</div>
-            </div>
-          </div>
+
+        <div class="hm-head">
+          <div class="t"><span class="hm-total" id="ct-total">&mdash;</span> contributions in the last year</div>
+          <a class="hm-profile" href="https://github.com/chrishannah">@chrishannah &#8599;</a>
         </div>
-        <div class="globe-legend">
-          <span><span class="dot" aria-hidden="true"></span> Live services</span>
-          <span><span class="dot warn" aria-hidden="true"></span> Deploying</span>
-          <span>Distributed via App Store &amp; web</span>
+
+        <div class="heatmap-scroll">
+          <div class="heatmap" id="heatmap" role="img" aria-label="GitHub contribution heatmap for the last year"></div>
         </div>
+        <div class="hm-legend">
+          Less
+          <span class="hm-cell" aria-hidden="true"></span>
+          <span class="hm-cell l1" aria-hidden="true"></span>
+          <span class="hm-cell l2" aria-hidden="true"></span>
+          <span class="hm-cell l3" aria-hidden="true"></span>
+          <span class="hm-cell l4" aria-hidden="true"></span>
+          More
+        </div>
+
+        <div class="act-sub">
+          <span>Recent Commits</span>
+          <span id="act-live"></span>
+        </div>
+        <ol class="log" id="log">
+          <li class="empty">Syncing with GitHub&hellip;</li>
+        </ol>
       </section>
     </div>
 
@@ -177,17 +189,17 @@
           <span class="h-status">Live</span>
         </div>
         <div class="systems">
-          <a class="sys" href="https://miniroll.app" data-system>
+          <a class="sys" href="https://miniroll.app">
             <span class="sys-name">Miniroll</span>
             <span class="sys-desc">Blogroll hosting &amp; embeds, with combined RSS.</span>
             <span class="sys-tag live">Live</span>
           </a>
-          <a class="sys" href="https://minifocus.app" data-system>
+          <a class="sys" href="https://minifocus.app">
             <span class="sys-name">Minifocus</span>
             <span class="sys-desc">Broadcast your current focus, embed anywhere.</span>
             <span class="sys-tag live">Live</span>
           </a>
-          <a class="sys" href="https://miniship.app" data-system>
+          <a class="sys" href="https://miniship.app">
             <span class="sys-name">Miniship</span>
             <span class="sys-desc">Changelogs you can create and embed.</span>
             <span class="sys-tag live">Live</span>
@@ -201,32 +213,32 @@
           <span class="h-status">Open Source</span>
         </div>
         <div class="systems">
-          <a class="sys" href="https://github.com/chrishannah/hearth" data-system>
+          <a class="sys" href="https://github.com/chrishannah/hearth">
             <span class="sys-name">hearth</span>
             <span class="sys-desc">Personal project.</span>
             <span class="sys-tag">Repo</span>
           </a>
-          <a class="sys" href="https://github.com/chrishannah/ferry-map" data-system>
-            <span class="sys-name">ferry-map</span>
+          <div class="sys">
+            <a class="sys-name" href="https://github.com/chrishannah/ferry-map">ferry-map</a>
             <span class="sys-desc">Interactive map of UK ferry routes.</span>
-            <span class="sys-tag soon">Soon</span>
-          </a>
-          <div class="sys" data-system>
+            <a class="sys-tag live" href="https://ferry.chrishannah.dev">Site&nbsp;&#8599;</a>
+          </div>
+          <div class="sys">
             <a class="sys-name" href="https://github.com/chrishannah/zhongwen">zhongwen</a>
             <span class="sys-desc">Chrome extension for learning Mandarin.</span>
             <a class="sys-tag store" href="https://chromewebstore.google.com/detail/zhongwen/locihbdghodjcnihijgfoidcjdagjpco">Store&nbsp;&#8599;</a>
           </div>
-          <a class="sys" href="https://github.com/chrishannah/random-link.js" data-system>
+          <a class="sys" href="https://github.com/chrishannah/random-link.js">
             <span class="sys-name">random-link.js</span>
             <span class="sys-desc">Show a random link on your website.</span>
             <span class="sys-tag">Repo</span>
           </a>
-          <a class="sys" href="https://github.com/chrishannah/blogroll.js" data-system>
+          <a class="sys" href="https://github.com/chrishannah/blogroll.js">
             <span class="sys-name">blogroll.js</span>
             <span class="sys-desc">Drop-in script to embed a blogroll.</span>
             <span class="sys-tag">Repo</span>
           </a>
-          <a class="sys" href="https://github.com/chrishannah/pokeguessr" data-system>
+          <a class="sys" href="https://github.com/chrishannah/pokeguessr">
             <span class="sys-name">pokeguessr</span>
             <span class="sys-desc">CLI game: guess all 151 original Pokémon.</span>
             <span class="sys-tag">Repo</span>
@@ -245,108 +257,160 @@
     &copy; <span id="year">2026</span> Chris Hannah · chrishannah.dev
   </footer>
 
-  <!-- Clock, counters, ticker -------------------------------------------- -->
+  <!-- Clocks, ticker ------------------------------------------------------ -->
   <script>
     (function () {
-      var clock = document.getElementById("clock");
+      var utcEl = document.getElementById("clock-utc");
+      var ukEl = document.getElementById("clock-uk");
+      var ukFmt, ukZone;
+      try {
+        ukFmt = new Intl.DateTimeFormat("en-GB", {
+          timeZone: "Europe/London", hour: "2-digit", minute: "2-digit",
+          second: "2-digit", hour12: false
+        });
+        ukZone = new Intl.DateTimeFormat("en-GB", {
+          timeZone: "Europe/London", timeZoneName: "short"
+        });
+      } catch (e) {}
+      function pad(n) { return String(n).padStart(2, "0"); }
       function tick() {
         var d = new Date();
-        var p = function (n) { return String(n).padStart(2, "0"); };
-        clock.textContent =
-          p(d.getUTCHours()) + ":" + p(d.getUTCMinutes()) + ":" +
-          p(d.getUTCSeconds()) + " UTC";
+        utcEl.textContent =
+          pad(d.getUTCHours()) + ":" + pad(d.getUTCMinutes()) + ":" + pad(d.getUTCSeconds());
+        if (ukFmt) {
+          var tz = "";
+          try {
+            var parts = ukZone.formatToParts(d);
+            for (var i = 0; i < parts.length; i++)
+              if (parts[i].type === "timeZoneName") tz = " " + parts[i].value;
+          } catch (e) {}
+          ukEl.textContent = ukFmt.format(d) + tz;
+        } else {
+          ukEl.textContent = utcEl.textContent;
+        }
       }
       tick();
       setInterval(tick, 1000);
-
       document.getElementById("year").textContent = new Date().getFullYear();
 
-      var n = document.querySelectorAll("[data-system]").length + 1; // + flagship
-      var counter = document.getElementById("sys-count");
-      var i = 0;
-      var iv = setInterval(function () {
-        i++;
-        counter.textContent = String(Math.min(i, n)).padStart(2, "0");
-        if (i >= n) clearInterval(iv);
-      }, 60);
-
-      // Ticker content
       var items = [
         "TEXT CASE // OPERATIONAL", "MINIROLL // LIVE", "MINIFOCUS // LIVE",
-        "MINISHIP // LIVE", "FERRY-MAP // DEPLOYING", "ZHONGWEN // CHROME STORE",
+        "MINISHIP // LIVE", "FERRY-MAP // LIVE", "ZHONGWEN // CHROME STORE",
         "BLOGROLL.JS // ONLINE", "RANDOM-LINK.JS // ONLINE", "POKEGUESSR // ONLINE",
         "CHRISHANNAH.ME // BROADCASTING", "ALL SYSTEMS NOMINAL"
       ];
       var html = items.map(function (t) {
-        return '<span>' + t.replace("//", '<span class="sep">//</span>') + "</span>";
+        return "<span>" + t.replace("//", '<span class="sep">//</span>') + "</span>";
       }).join('<span class="sep">•</span>');
-      document.getElementById("ticker").innerHTML = html + '<span class="sep">•</span>' + html;
+      document.getElementById("ticker").innerHTML =
+        html + '<span class="sep">•</span>' + html;
     })();
   </script>
 
-  <!-- Globe (cobe via CDN; graceful fallback to CSS globe) ---------------- -->
-  <script type="module">
-    try {
-      const createGlobe = (await import("https://cdn.jsdelivr.net/npm/cobe@0.6.4/+esm")).default;
-      const canvas = document.getElementById("globe");
-      const wrap = canvas.parentElement;
-      const fallback = wrap.querySelector(".globe-fallback");
-      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  <!-- Live GitHub activity ------------------------------------------------ -->
+  <script>
+    (function () {
+      var USER = "chrishannah";
+      var hm = document.getElementById("heatmap");
 
-      let phi = 0;
-      let size = wrap.clientWidth;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = size * dpr;
-      canvas.height = size * dpr;
+      // Skeleton heatmap so the panel looks intentional before/without data.
+      var SKELETON = 53 * 7;
+      for (var i = 0; i < SKELETON; i++) {
+        var c = document.createElement("div");
+        c.className = "hm-cell";
+        hm.appendChild(c);
+      }
 
-      let first = true;
-      const globe = createGlobe(canvas, {
-        devicePixelRatio: dpr,
-        width: size * dpr,
-        height: size * dpr,
-        phi: 0,
-        theta: 0.28,
-        dark: 1,
-        diffuse: 1.2,
-        mapSamples: 16000,
-        mapBrightness: 6,
-        baseColor: [0.26, 0.33, 0.4],
-        markerColor: [0.18, 0.85, 0.95],
-        glowColor: [0.09, 0.36, 0.46],
-        markers: [
-          { location: [54.0, -2.0], size: 0.1 },
-          { location: [51.5, -0.12], size: 0.05 },
-          { location: [40.71, -74.0], size: 0.05 },
-          { location: [37.77, -122.42], size: 0.05 },
-          { location: [48.85, 2.35], size: 0.04 },
-          { location: [52.52, 13.4], size: 0.04 },
-          { location: [35.68, 139.69], size: 0.05 },
-          { location: [1.35, 103.82], size: 0.04 },
-          { location: [-33.87, 151.21], size: 0.04 },
-          { location: [-23.55, -46.63], size: 0.04 },
-          { location: [19.08, 72.88], size: 0.04 }
-        ],
-        onRender: (state) => {
-          if (!reduce) phi += 0.004;
-          state.phi = phi;
-          state.width = size * dpr;
-          state.height = size * dpr;
-          if (first) {
-            first = false;
-            canvas.style.opacity = "1";
-            if (fallback) fallback.style.display = "none";
+      function timeAgo(iso) {
+        var s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+        if (s < 60) return s + "s";
+        var m = Math.floor(s / 60); if (m < 60) return m + "m";
+        var h = Math.floor(m / 60); if (h < 24) return h + "h";
+        var d = Math.floor(h / 24); if (d < 7) return d + "d";
+        var w = Math.floor(d / 7); if (w < 5) return w + "w";
+        var mo = Math.floor(d / 30); if (mo < 12) return mo + "mo";
+        return Math.floor(d / 365) + "y";
+      }
+      function esc(t) {
+        var e = document.createElement("div");
+        e.textContent = t == null ? "" : String(t);
+        return e.innerHTML;
+      }
+
+      // --- Contribution heatmap (CORS-friendly community API) ---
+      fetch("https://github-contributions-api.jogruber.de/v4/" + USER + "?y=last")
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (data) {
+          var days = data.contributions || [];
+          if (!days.length) return;
+          hm.innerHTML = "";
+          var first = new Date(days[0].date + "T00:00:00Z");
+          var pad = first.getUTCDay();
+          for (var p = 0; p < pad; p++) {
+            var pc = document.createElement("div");
+            pc.className = "hm-cell pad";
+            hm.appendChild(pc);
           }
-        }
-      });
+          var total = 0;
+          days.forEach(function (day) {
+            total += day.count;
+            var cell = document.createElement("div");
+            cell.className = "hm-cell l" + day.level;
+            cell.title = day.date + " · " + day.count +
+              (day.count === 1 ? " contribution" : " contributions");
+            hm.appendChild(cell);
+          });
+          document.getElementById("ct-total").textContent = total.toLocaleString();
+          var sc = document.querySelector(".heatmap-scroll");
+          sc.scrollLeft = sc.scrollWidth;
+        })
+        .catch(function () {
+          document.getElementById("ct-total").textContent = "—";
+        });
 
-      addEventListener("resize", () => {
-        size = wrap.clientWidth;
-        canvas.width = size * dpr;
-        canvas.height = size * dpr;
-      });
-    } catch (e) {
-      /* CSS fallback globe remains visible */
-    }
+      // --- Recent commits / activity (GitHub public events, CORS-enabled) ---
+      var log = document.getElementById("log");
+      fetch("https://api.github.com/users/" + USER + "/events/public?per_page=40", {
+        headers: { Accept: "application/vnd.github+json" }
+      })
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (events) {
+          var rows = [];
+          for (var i = 0; i < events.length && rows.length < 7; i++) {
+            var ev = events[i];
+            var repo = (ev.repo && ev.repo.name ? ev.repo.name.split("/").pop() : "");
+            var msg = null;
+            if (ev.type === "PushEvent" && ev.payload.commits && ev.payload.commits.length) {
+              msg = ev.payload.commits[ev.payload.commits.length - 1].message.split("\n")[0];
+            } else if (ev.type === "CreateEvent" && ev.payload.ref_type === "repository") {
+              msg = "created repository";
+            } else if (ev.type === "CreateEvent" && ev.payload.ref_type === "tag") {
+              msg = "tagged " + ev.payload.ref;
+            } else if (ev.type === "ReleaseEvent") {
+              msg = "released " + (ev.payload.release ? ev.payload.release.tag_name : "");
+            } else if (ev.type === "PullRequestEvent") {
+              msg = ev.payload.action + " PR: " + ev.payload.pull_request.title;
+            } else if (ev.type === "IssuesEvent") {
+              msg = ev.payload.action + " issue: " + ev.payload.issue.title;
+            }
+            if (msg) rows.push({ repo: repo, msg: msg, ago: timeAgo(ev.created_at) });
+          }
+          if (!rows.length) {
+            log.innerHTML = '<li class="empty">No recent public activity.</li>';
+            return;
+          }
+          log.innerHTML = rows.map(function (r) {
+            return '<li><span class="repo">' + esc(r.repo) + '</span>' +
+              '<span class="msg">' + esc(r.msg) + '</span>' +
+              '<span class="ago">' + esc(r.ago) + '</span></li>';
+          }).join("");
+          document.getElementById("act-live").textContent = "· synced " +
+            new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        })
+        .catch(function () {
+          log.innerHTML = '<li class="empty">Activity unavailable right now.</li>';
+        });
+    })();
   </script>
 
   <!-- Analytics (Tinylytics) — remove if unwanted -->

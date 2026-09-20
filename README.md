@@ -8,8 +8,12 @@ web services, open source, and writing. Served with
 ## How it works
 
 - Plain static HTML and CSS — no build step. What's committed is what's served.
-- A rotating globe is drawn with [cobe](https://github.com/shuding/cobe), loaded
-  from a CDN. If the CDN or WebGL is unavailable, a CSS fallback globe is shown.
+- The centerpiece shows **live GitHub activity**, fetched client-side:
+  - contribution heatmap via the CORS-friendly
+    [github-contributions-api](https://github-contributions-api.jogruber.de/);
+  - recent commits via the public GitHub events API.
+  Both degrade gracefully if a request fails.
+- Top bar shows live London (auto GMT/BST) and UTC clocks.
 - Fonts are IBM Plex Mono / Sans from Google Fonts.
 - `.nojekyll` disables Jekyll so self-contained artifacts (including files whose
   names start with `_`) are served exactly as-is.
@@ -30,7 +34,7 @@ web services, open source, and writing. Served with
 The dashboard panels are:
 
 - **01 Operator / 02 Comms / 03 Feeds** — bio, social links, and blogs.
-- **00 Deployments** — the globe and live system count.
+- **00 GitHub Activity** — live contribution heatmap and recent commits.
 - **04 Flagship** — Text Case and its platforms.
 - **05 Web Services** — the live `.app` tools.
 - **06 Repositories** — open-source projects on GitHub.
