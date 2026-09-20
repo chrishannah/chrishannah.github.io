@@ -10,9 +10,17 @@
   <meta property="og:title" content="Chris Hannah" />
   <meta property="og:description" content="Apps, web services, open source, and writing — one dashboard." />
   <meta property="og:url" content="https://chrishannah.dev" />
-  <meta name="theme-color" content="#05070c" />
+  <meta property="og:image" content="https://chrishannah.dev/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Chris Hannah" />
+  <meta name="twitter:description" content="Apps, web services, open source, and writing — one dashboard." />
+  <meta name="twitter:image" content="https://chrishannah.dev/og.png" />
+  <meta name="twitter:site" content="@chrishannah" />
+  <meta name="theme-color" content="#1a1919" />
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='12' y='16' width='76' height='56' rx='6' fill='none' stroke='%232dd4ee' stroke-width='7'/%3E%3Cpath d='M24 58l14-16 12 10 16-22' fill='none' stroke='%232dd4ee' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='12' y='16' width='76' height='56' rx='6' fill='none' stroke='%23f73d3a' stroke-width='7'/%3E%3Cpath d='M24 58l14-16 12 10 16-22' fill='none' stroke='%23f73d3a' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
   <link rel="me" href="https://hachyderm.io/@chrishannah" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -63,7 +71,7 @@
         </p>
         <div class="meta-rows">
           <div><span class="k">Base</span><span class="v">United Kingdom</span></div>
-          <div><span class="k">Focus</span><span class="v">Apps &middot; Tools &middot; Writing</span></div>
+          <div><span class="k">Focus</span><span class="v" id="focus">Apps &middot; Tools &middot; Writing</span></div>
         </div>
       </section>
 
@@ -106,22 +114,34 @@
           <span class="h-status">Writing</span>
         </div>
         <div class="feeds">
-          <a class="feed" href="https://chrishannah.me">
+          <a class="feed" href="https://chrishannah.me" data-feed="chrishannah.me">
             <span class="feed-name">chrishannah.me</span>
             <div class="feed-desc">
               Main blog — long-form writing on software, tools, and culture.
               <span class="feed-src"> · src: <a class="feed-src" href="https://github.com/chrishannah/eleven">eleven</a></span>
             </div>
+            <div class="feed-latest" hidden></div>
           </a>
-          <a class="feed" href="https://journeysthroughglass.net">
+          <a class="feed" href="https://journeysthroughglass.net" data-feed="journeysthroughglass.net">
             <span class="feed-name">journeysthroughglass.net</span>
             <div class="feed-desc">Writing project.</div>
+            <div class="feed-latest" hidden></div>
           </a>
-          <a class="feed" href="https://codeandculture.uk">
+          <a class="feed" href="https://codeandculture.uk" data-feed="codeandculture.uk">
             <span class="feed-name">codeandculture.uk</span>
             <div class="feed-desc">Writing project.</div>
+            <div class="feed-latest" hidden></div>
           </a>
         </div>
+      </section>
+
+      <section class="panel" aria-labelledby="vis-h">
+        <div class="panel-h">
+          <span class="h-left"><span class="h-idx">07</span> <span id="vis-h">Visitors</span></span>
+          <span class="h-status"><span class="dot" aria-hidden="true"></span> Live</span>
+        </div>
+        <!-- Tinylytics countries widget (rendered by the embed script below) -->
+        <div class="tinylytics_countries countries"></div>
       </section>
     </div>
 
@@ -131,6 +151,13 @@
         <div class="panel-h">
           <span class="h-left"><span class="h-idx">00</span> <span id="act-h">GitHub Activity</span></span>
           <span class="h-status"><span class="dot" aria-hidden="true"></span> Live</span>
+        </div>
+
+        <div class="stats" id="stats">
+          <div class="stat"><span class="stat-n" id="st-repos">&mdash;</span><span class="stat-l">Repos</span></div>
+          <div class="stat"><span class="stat-n" id="st-stars">&mdash;</span><span class="stat-l">Stars</span></div>
+          <div class="stat"><span class="stat-n" id="st-followers">&mdash;</span><span class="stat-l">Followers</span></div>
+          <div class="stat"><span class="stat-n" id="st-streak">&mdash;</span><span class="stat-l">Day streak</span></div>
         </div>
 
         <div class="hm-head">
@@ -156,7 +183,11 @@
           <span id="act-live"></span>
         </div>
         <ol class="log" id="log">
-          <li class="empty">Syncing with GitHub&hellip;</li>
+          <li class="skel"><span class="sk sk-a"></span><span class="sk sk-b"></span><span class="sk sk-c"></span></li>
+          <li class="skel"><span class="sk sk-a"></span><span class="sk sk-b"></span><span class="sk sk-c"></span></li>
+          <li class="skel"><span class="sk sk-a"></span><span class="sk sk-b"></span><span class="sk sk-c"></span></li>
+          <li class="skel"><span class="sk sk-a"></span><span class="sk sk-b"></span><span class="sk sk-c"></span></li>
+          <li class="skel"><span class="sk sk-a"></span><span class="sk sk-b"></span><span class="sk sk-c"></span></li>
         </ol>
       </section>
     </div>
@@ -311,6 +342,9 @@
   <script>
     (function () {
       var USER = "chrishannah";
+      // Minifocus: set this to your public Minifocus JSON/text endpoint to show
+      // your current focus live. Leave "" to keep the static focus label.
+      var FOCUS_URL = "";
       var hm = document.getElementById("heatmap");
 
       // Skeleton heatmap so the panel looks intentional before/without data.
@@ -319,6 +353,21 @@
         var c = document.createElement("div");
         c.className = "hm-cell";
         hm.appendChild(c);
+      }
+
+      function fmt(n) { return (n == null ? "—" : Number(n).toLocaleString()); }
+
+      function streakFrom(days) {
+        // consecutive days with contributions, counting back from the end;
+        // today counting as 0 does not break the streak (grace day).
+        var streak = 0;
+        var todayStr = new Date().toISOString().slice(0, 10);
+        for (var i = days.length - 1; i >= 0; i--) {
+          if (days[i].count > 0) streak++;
+          else if (days[i].date === todayStr) continue; // grace for today
+          else break;
+        }
+        return streak;
       }
 
       function timeAgo(iso) {
@@ -361,12 +410,67 @@
             hm.appendChild(cell);
           });
           document.getElementById("ct-total").textContent = total.toLocaleString();
+          document.getElementById("st-streak").textContent = fmt(streakFrom(days));
           var sc = document.querySelector(".heatmap-scroll");
           sc.scrollLeft = sc.scrollWidth;
         })
         .catch(function () {
           document.getElementById("ct-total").textContent = "—";
         });
+
+      // --- Profile + repo stats (GitHub API, CORS-enabled) ---
+      fetch("https://api.github.com/users/" + USER)
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (u) {
+          document.getElementById("st-repos").textContent = fmt(u.public_repos);
+          document.getElementById("st-followers").textContent = fmt(u.followers);
+        })
+        .catch(function () {});
+
+      fetch("https://api.github.com/users/" + USER + "/repos?per_page=100&type=owner")
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (repos) {
+          var stars = repos.reduce(function (a, r) {
+            return a + (r.fork ? 0 : (r.stargazers_count || 0));
+          }, 0);
+          document.getElementById("st-stars").textContent = fmt(stars);
+        })
+        .catch(function () {});
+
+      // --- Current focus (Minifocus) ---
+      if (FOCUS_URL) {
+        fetch(FOCUS_URL)
+          .then(function (r) { if (!r.ok) throw 0; var ct = r.headers.get("content-type") || ""; return ct.indexOf("json") > -1 ? r.json() : r.text(); })
+          .then(function (d) {
+            var text = typeof d === "string" ? d : (d.focus || d.status || d.text || d.title || "");
+            text = String(text).trim();
+            if (text) document.getElementById("focus").textContent = text;
+          })
+          .catch(function () {});
+      }
+
+      // --- Latest blog posts (cached by GitHub Action -> data/feeds.json) ---
+      fetch("/data/feeds.json", { cache: "no-cache" })
+        .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+        .then(function (data) {
+          var feeds = (data && data.feeds) || {};
+          document.querySelectorAll("[data-feed]").forEach(function (el) {
+            var f = feeds[el.getAttribute("data-feed")];
+            if (!f || !f.title) return;
+            var slot = el.querySelector(".feed-latest");
+            if (!slot) return;
+            var when = "";
+            if (f.date) {
+              var d = new Date(f.date);
+              if (!isNaN(d)) when = " · " + d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+            }
+            slot.innerHTML = '<span class="fl-arrow">›</span>' +
+              '<span class="fl-title">' + esc(f.title) + "</span>" +
+              '<span class="fl-date">' + esc(when) + "</span>";
+            slot.hidden = false;
+          });
+        })
+        .catch(function () {});
 
       // --- Recent commits / activity (GitHub public events, CORS-enabled) ---
       var log = document.getElementById("log");
@@ -413,7 +517,8 @@
     })();
   </script>
 
-  <!-- Analytics (Tinylytics) — remove if unwanted -->
-  <script defer src="https://tinylytics.app/embed/_WLqQ_gWymW1kmjy_GQt.js"></script>
+  <!-- Analytics + countries widget (Tinylytics). Counts hits and renders the
+       .tinylytics_countries widget. Remove ?countries to hide the widget. -->
+  <script defer src="https://tinylytics.app/embed/_WLqQ_gWymW1kmjy_GQt.js?countries"></script>
 </body>
 </html>
