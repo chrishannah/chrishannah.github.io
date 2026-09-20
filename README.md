@@ -11,10 +11,23 @@ web services, open source, and writing. Served with
 - The centerpiece shows **live GitHub activity**, fetched client-side:
   - contribution heatmap via the CORS-friendly
     [github-contributions-api](https://github-contributions-api.jogruber.de/);
-  - recent commits via the public GitHub events API.
-  Both degrade gracefully if a request fails.
+  - stat tiles, top languages, and recent commits via the public GitHub API.
+  Everything degrades gracefully if a request fails.
+- A scheduled GitHub Action (`.github/workflows/feeds.yml`) caches, server-side,
+  into `data/feeds.json`: latest blog posts, the current Minifocus focus, and
+  recent Vercel deployments. Running server-side avoids browser CORS limits.
 - Top bar shows live London (auto GMT/BST) and UTC clocks.
 - Fonts are IBM Plex Mono / Sans from Google Fonts.
+
+### Secrets (optional)
+
+Set these as repo **Settings → Secrets and variables → Actions** to enable the
+Vercel deployments panel:
+
+- `VERCEL_TOKEN` — a Vercel API token (required for deployments).
+- `VERCEL_TEAM_ID` — only if the projects live under a Vercel team.
+
+Without `VERCEL_TOKEN`, the Deployments panel simply stays hidden.
 - `.nojekyll` disables Jekyll so self-contained artifacts (including files whose
   names start with `_`) are served exactly as-is.
 - `CNAME` points the site at the `chrishannah.dev` custom domain.
@@ -34,10 +47,12 @@ web services, open source, and writing. Served with
 The dashboard panels are:
 
 - **01 Operator / 02 Comms / 03 Feeds** — bio, social links, and blogs.
-- **00 GitHub Activity** — live contribution heatmap and recent commits.
+- **00 GitHub Activity** — stat tiles, contribution heatmap, top languages, commits.
+- **08 Deployments** — recent Vercel deployments (needs `VERCEL_TOKEN`).
 - **04 Flagship** — Text Case and its platforms.
-- **05 Web Services** — the live `.app` tools.
-- **06 Repositories** — open-source projects on GitHub.
+- **05 Projects** — Miniroll, Minifocus, Miniship, ferry-map, zhongwen.
+- **06 Repositories** — smaller open-source projects on GitHub.
+- **07 Visitors** — Tinylytics countries widget.
 
 ## Adding a project
 

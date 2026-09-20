@@ -141,6 +141,45 @@ try {
   console.log("miss focus");
 }
 
+// Recent deployments (Vercel) — needs a VERCEL_TOKEN repo secret. A token
+// can't live in the page, so this runs server-side and caches the result.
+if (process.env.VERCEL_TOKEN) {
+  try {
+    const team = process.env.VERCEL_TEAM_ID ? `&teamId=${process.env.VERCEL_TEAM_ID}` : "";
+    const r = await fetch(`https://api.vercel.com/v6/deployments?limit=8${team}`, {
+      headers: { Authorization: `Bearer ${process.env.VERCEL_TOKEN}` }
+    });
+    if (r.ok) {
+      const j = await r.json();
+      const deps = (j.deployments || []).map((d) => {
+        const m = d.meta || {};
+        const msg = m.githubCommitMessage || m.gitCommitMessage || "";
+        return {
+          project: d.name || "",
+          state: d.readyState || d.state || "",
+          url: d.url ? (d.url.startsWith("http") ? d.url : "https://" + d.url) : "",
+          ts: d.created || d.createdAt || d.ready || null,
+          ref: m.githubCommitRef || m.gitCommitRef || "",
+          msg: msg ? String(msg).split("\n")[0].slice(0, 80) : ""
+        };
+      });
+      if (deps.length) {
+        out.deployments = deps;
+        console.log(`ok   deployments -> ${deps.length}`);
+      }
+    } else {
+      console.log(`miss deployments (${r.status})`);
+    }
+  } catch {
+    console.log("miss deployments (error)");
+  }
+} else {
+  console.log("skip deployments (no VERCEL_TOKEN)");
+}
+
 await mkdir("data", { recursive: true });
 await writeFile("data/feeds.json", JSON.stringify(out, null, 2) + "\n");
-console.log(`wrote data/feeds.json (${Object.keys(out.feeds).length} feeds)`);
+console.log(
+  `wrote data/feeds.json (${Object.keys(out.feeds).length} feeds` +
+  `${out.focus ? ", focus" : ""}${out.deployments ? ", " + out.deployments.length + " deploys" : ""})`
+);

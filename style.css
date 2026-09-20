@@ -553,6 +553,32 @@ a:visited { color: inherit; }
   color: var(--fg-faint);
   justify-content: center;
 }
+/* Deployments rows */
+.deploys li { padding: 0; }
+.dep-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.5rem 0.1rem;
+  text-decoration: none;
+  color: inherit;
+}
+.dep-link:hover .repo { text-decoration: underline; }
+.dep-state {
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0.12rem 0.4rem;
+  color: var(--fg-dim);
+  white-space: nowrap;
+}
+.dep-state.ok { color: var(--live); border-color: rgba(0, 255, 149, 0.4); }
+.dep-state.err { color: var(--danger); border-color: rgba(238, 56, 138, 0.4); }
+.dep-state.warn { color: var(--warn); border-color: rgba(243, 150, 29, 0.4); }
 /* commit-log loading skeleton */
 .log li.skel {
   align-items: center;

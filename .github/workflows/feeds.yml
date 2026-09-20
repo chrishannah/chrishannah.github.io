@@ -27,7 +27,10 @@ jobs:
         with:
           node-version: 22
 
-      - name: Fetch latest posts
+      - name: Fetch latest posts, focus, and deployments
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TEAM_ID: ${{ secrets.VERCEL_TEAM_ID }}
         run: node .github/scripts/fetch-feeds.mjs
 
       - name: Commit if changed

@@ -196,6 +196,14 @@
           <li class="skel"><span class="sk sk-a"></span><span class="sk sk-b"></span><span class="sk sk-c"></span></li>
         </ol>
       </section>
+
+      <section class="panel" id="deploy-panel" aria-labelledby="deploy-h" hidden>
+        <div class="panel-h">
+          <span class="h-left"><span class="h-idx">08</span> <span id="deploy-h">Deployments</span></span>
+          <span class="h-status"><span class="dot" aria-hidden="true"></span> Vercel</span>
+        </div>
+        <ol class="log deploys" id="deploys"></ol>
+      </section>
     </div>
 
     <!-- RIGHT ------------------------------------------------------------ -->
@@ -222,8 +230,8 @@
 
       <section class="panel" aria-labelledby="svc-h">
         <div class="panel-h">
-          <span class="h-left"><span class="h-idx">05</span> <span id="svc-h">Web Services</span></span>
-          <span class="h-status">Live</span>
+          <span class="h-left"><span class="h-idx">05</span> <span id="svc-h">Projects</span></span>
+          <span class="h-status"><span class="dot" aria-hidden="true"></span> Shipped</span>
         </div>
         <div class="systems">
           <a class="sys" href="https://miniroll.app">
@@ -241,6 +249,16 @@
             <span class="sys-desc">Changelogs you can create and embed.</span>
             <span class="sys-tag live">Live</span>
           </a>
+          <div class="sys">
+            <a class="sys-name" href="https://ferry.chrishannah.dev">ferry-map</a>
+            <span class="sys-desc">Interactive map of UK ferry routes.</span>
+            <a class="sys-tag" href="https://github.com/chrishannah/ferry-map">Code&nbsp;&#8599;</a>
+          </div>
+          <div class="sys">
+            <a class="sys-name" href="https://chromewebstore.google.com/detail/zhongwen/locihbdghodjcnihijgfoidcjdagjpco">zhongwen</a>
+            <span class="sys-desc">Chrome extension for learning Mandarin.</span>
+            <a class="sys-tag store" href="https://github.com/chrishannah/zhongwen">Code&nbsp;&#8599;</a>
+          </div>
         </div>
       </section>
 
@@ -255,16 +273,6 @@
             <span class="sys-desc">Personal project.</span>
             <span class="sys-tag">Repo</span>
           </a>
-          <div class="sys">
-            <a class="sys-name" href="https://github.com/chrishannah/ferry-map">ferry-map</a>
-            <span class="sys-desc">Interactive map of UK ferry routes.</span>
-            <a class="sys-tag live" href="https://ferry.chrishannah.dev">Site&nbsp;&#8599;</a>
-          </div>
-          <div class="sys">
-            <a class="sys-name" href="https://github.com/chrishannah/zhongwen">zhongwen</a>
-            <span class="sys-desc">Chrome extension for learning Mandarin.</span>
-            <a class="sys-tag store" href="https://chromewebstore.google.com/detail/zhongwen/locihbdghodjcnihijgfoidcjdagjpco">Store&nbsp;&#8599;</a>
-          </div>
           <a class="sys" href="https://github.com/chrishannah/random-link.js">
             <span class="sys-name">random-link.js</span>
             <span class="sys-desc">Show a random link on your website.</span>
@@ -348,8 +356,10 @@
   <script>
     (function () {
       var USER = "chrishannah";
-      // Minifocus: public endpoint returning the current focus as plain text.
-      var FOCUS_URL = "https://minifocus.app/embed/chris.txt";
+      // Minifocus: the embed endpoint blocks cross-origin requests from this
+      // domain, so the focus is fetched server-side by the GitHub Action and
+      // cached into data/feeds.json (read below). Leave FOCUS_URL empty.
+      var FOCUS_URL = "";
       var hm = document.getElementById("heatmap");
 
       // Skeleton heatmap so the panel looks intentional before/without data.
@@ -504,6 +514,27 @@
               '<span class="fl-date">' + esc(when) + "</span>";
             slot.hidden = false;
           });
+
+          // Recent deployments (Vercel), cached server-side by the Action
+          var deps = (data && data.deployments) || [];
+          if (deps.length) {
+            var dl = document.getElementById("deploys");
+            dl.innerHTML = deps.slice(0, 6).map(function (d) {
+              var st = String(d.state || "").toUpperCase();
+              var cls = st === "READY" ? "ok" : st === "ERROR" ? "err"
+                : (st === "BUILDING" || st === "QUEUED") ? "warn" : "";
+              var label = st ? st.charAt(0) + st.slice(1).toLowerCase() : "—";
+              var text = d.ref ? (d.ref + (d.msg ? " — " + d.msg : "")) : (d.msg || "deploy");
+              var inner = '<span class="repo">' + esc(d.project || "—") + "</span>" +
+                '<span class="msg">' + esc(text) + "</span>" +
+                '<span class="dep-state ' + cls + '">' + esc(label) + "</span>" +
+                '<span class="ago">' + esc(d.ts ? timeAgo(d.ts) : "") + "</span>";
+              return d.url
+                ? '<li><a class="dep-link" href="' + esc(d.url) + '">' + inner + "</a></li>"
+                : "<li>" + inner + "</li>";
+            }).join("");
+            document.getElementById("deploy-panel").hidden = false;
+          }
         })
         .catch(function () {});
 
