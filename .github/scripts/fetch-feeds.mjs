@@ -133,33 +133,61 @@ async function fetchFocus() {
     Referer: "https://chrishannah.me/",
     Origin: "https://chrishannah.me"
   };
-  try {
-    const r = await fetch("https://minifocus.app/embed/chris.txt", { headers });
-    console.log(`focus txt: ${r.status}`);
-    if (r.ok) {
-      const t = (await r.text()).replace(/<[^>]*>/g, "").trim();
-      if (t) return t;
-    }
-  } catch { console.log("focus txt: error"); }
+  const clean = (s) => (s || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+  const looksLikeCode = (s) => /^\s*[<{[]/.test(s) || /function|=>|document\.|addEventListener|var |const |let /.test(s);
 
+  async function tryUrl(url) {
+    try {
+      const r = await fetch(url, { headers });
+      console.log(`focus ${url} -> ${r.status}`);
+      if (!r.ok) return "";
+      const ct = (r.headers.get("content-type") || "").toLowerCase();
+      const body = await r.text();
+      if (ct.includes("json") || body.trim().startsWith("{")) {
+        try {
+          const j = JSON.parse(body);
+          return clean(j.focus || j.text || j.status || j.message || j.content || "");
+        } catch { return ""; }
+      }
+      if (looksLikeCode(body)) return "";
+      const t = clean(body);
+      return t.length >= 3 ? t : "";
+    } catch {
+      console.log(`focus ${url} -> error`);
+      return "";
+    }
+  }
+
+  // Direct endpoints first.
+  for (const u of [
+    "https://minifocus.app/embed/chris.txt",
+    "https://minifocus.app/embed/chris.json"
+  ]) {
+    const t = await tryUrl(u);
+    if (t) return t;
+  }
+
+  // Otherwise discover the data URL the JS embed calls at runtime.
   try {
     const r = await fetch("https://minifocus.app/embed/chris.js", { headers });
-    console.log(`focus js: ${r.status}`);
+    console.log(`focus chris.js -> ${r.status}`);
     if (r.ok) {
       const js = await r.text();
-      const m =
-        js.match(/["'](?:focus|text|status|message|content)["']\s*:\s*"((?:[^"\\]|\\.)*)"/i) ||
-        js.match(/(?:innerHTML|textContent)\s*=\s*"((?:[^"\\]|\\.)*)"/i) ||
-        js.match(/["']((?:[^"'\\]|\\.){12,})["']/); // longest-ish string fallback
-      if (m && m[1]) {
-        let t = m[1];
-        try { t = JSON.parse('"' + t.replace(/"/g, '\\"') + '"'); } catch {}
-        t = t.replace(/<[^>]*>/g, "").trim();
+      const urls = new Set();
+      (js.match(/https?:\/\/[^"'`\s)]+/g) || []).forEach((u) => urls.add(u));
+      (js.match(/["'`](\/[^"'`\s)]+)["'`]/g) || []).forEach((u) => urls.add(u.slice(1, -1)));
+      for (let u of urls) {
+        if (!/chris|focus|embed|api/i.test(u)) continue;
+        if (/\.js(\?|$)/.test(u)) continue;
+        if (u.startsWith("//")) u = "https:" + u;
+        else if (u.startsWith("/")) u = "https://minifocus.app" + u;
+        const t = await tryUrl(u);
         if (t) return t;
       }
-      console.log("focus js: no match");
     }
-  } catch { console.log("focus js: error"); }
+  } catch {
+    console.log("focus chris.js -> error");
+  }
   return "";
 }
 
