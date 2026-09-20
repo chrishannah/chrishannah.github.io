@@ -1,4 +1,70 @@
 {
-  "updated": "",
-  "feeds": {}
+  "updated": "2026-09-20T11:59:52.181Z",
+  "feeds": {},
+  "deployments": [
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-nrh14j2p8-chris-hannahs-projects.vercel.app",
+      "ts": 1789230505409,
+      "ref": "claude/dreamy-euler-mz2h77",
+      "msg": "Fix build: avoid spreading a Set in the auth audit"
+    },
+    {
+      "project": "miniroll",
+      "state": "ERROR",
+      "url": "https://miniroll-mhv4ncjiw-chris-hannahs-projects.vercel.app",
+      "ts": 1789230272067,
+      "ref": "claude/dreamy-euler-mz2h77",
+      "msg": "Add read-only passwordless-readiness audit endpoint"
+    },
+    {
+      "project": "miniroll",
+      "state": "CANCELED",
+      "url": "https://miniroll-k0bt6q7nn-chris-hannahs-projects.vercel.app",
+      "ts": 1789210295333,
+      "ref": "claude/dreamy-euler-mz2h77",
+      "msg": "Update CLAUDE.md for the custom passwordless auth"
+    },
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-j4mtch3v0-chris-hannahs-projects.vercel.app",
+      "ts": 1789209824531,
+      "ref": "claude/dreamy-euler-mz2h77",
+      "msg": "Surface why a sign-up can't complete after code verification"
+    },
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-ggbm3va17-chris-hannahs-projects.vercel.app",
+      "ts": 1789209330488,
+      "ref": "claude/dreamy-euler-mz2h77",
+      "msg": "Restore native account management (change email, delete account)"
+    },
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-1xjps3niy-chris-hannahs-projects.vercel.app",
+      "ts": 1789208980977,
+      "ref": "claude/dreamy-euler-mz2h77",
+      "msg": "Redirect signed-in users away from the auth pages"
+    },
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-58hg14b34-chris-hannahs-projects.vercel.app",
+      "ts": 1789207120373,
+      "ref": "claude/dreamy-euler-mz2h77",
+      "msg": "Support magic-link sign-in alongside the email code"
+    },
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-7mjd9hyq3-chris-hannahs-projects.vercel.app",
+      "ts": 1789206451864,
+      "ref": "claude/dreamy-euler-mz2h77",
+      "msg": "Replace Clerk's prebuilt UI with native Miniroll auth"
+    }
+  ]
 }
