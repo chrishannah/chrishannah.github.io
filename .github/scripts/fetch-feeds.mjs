@@ -129,69 +129,18 @@ for (const [site, urls] of Object.entries(SITES)) {
 // we present as chrishannah.me (which is allowlisted). Try the plain-text
 // endpoint first, then fall back to extracting it from the JS embed.
 async function fetchFocus() {
-  const headers = {
-    "User-Agent": UA,
-    Referer: "https://chrishannah.me/",
-    Origin: "https://chrishannah.me"
-  };
-  const clean = (s) => (s || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-  // A focus is a short human sentence — reject code, CSS, font files, markup.
-  const isFocusText = (s) =>
-    !!s && s.length <= 240 &&
-    !/[{}]|@font-face|font-family|url\(|<\/|=>|function|:root|\.ttf|\.woff|https?:\/\/fonts|;\s*}/i.test(s) &&
-    /[a-z]/i.test(s);
-
-  async function tryUrl(url) {
-    try {
-      const r = await fetch(url, { headers });
-      console.log(`focus ${url} -> ${r.status}`);
-      if (!r.ok) return "";
-      const ct = (r.headers.get("content-type") || "").toLowerCase();
-      const body = await r.text();
-      if (ct.includes("json") || body.trim().startsWith("{")) {
-        try {
-          const j = JSON.parse(body);
-          const t = clean(j.focus || j.text || j.status || j.message || j.content || "");
-          return isFocusText(t) ? t : "";
-        } catch { return ""; }
-      }
-      const t = clean(body);
-      return isFocusText(t) ? t : "";
-    } catch {
-      console.log(`focus ${url} -> error`);
-      return "";
-    }
-  }
-
-  // Direct endpoints first.
-  for (const u of [
-    "https://minifocus.app/embed/chris.txt",
-    "https://minifocus.app/embed/chris.json"
-  ]) {
-    const t = await tryUrl(u);
-    if (t) return t;
-  }
-
-  // Otherwise discover the data URL the JS embed calls at runtime.
+  // The Minifocus embed reads this JSON API: { focus, updatedAt }.
   try {
-    const r = await fetch("https://minifocus.app/embed/chris.js", { headers });
-    console.log(`focus chris.js -> ${r.status}`);
+    const r = await fetch("https://minifocus.app/api/focus/chris?format=json", {
+      headers: { "User-Agent": UA, Accept: "application/json" }
+    });
+    console.log(`focus api -> ${r.status}`);
     if (r.ok) {
-      const js = await r.text();
-      const urls = new Set();
-      (js.match(/https?:\/\/[^"'`\s)]+/g) || []).forEach((u) => urls.add(u));
-      (js.match(/["'`](\/[^"'`\s)]+)["'`]/g) || []).forEach((u) => urls.add(u.slice(1, -1)));
-      for (let u of urls) {
-        if (!/chris|focus|embed|api/i.test(u)) continue;
-        if (/\.js(\?|$)/.test(u)) continue;
-        if (u.startsWith("//")) u = "https:" + u;
-        else if (u.startsWith("/")) u = "https://minifocus.app" + u;
-        const t = await tryUrl(u);
-        if (t) return t;
-      }
+      const d = await r.json();
+      return (d.focus || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
     }
   } catch {
-    console.log("focus chris.js -> error");
+    console.log("focus api -> error");
   }
   return "";
 }
