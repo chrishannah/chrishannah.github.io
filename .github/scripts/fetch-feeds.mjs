@@ -124,12 +124,31 @@ for (const [site, urls] of Object.entries(SITES)) {
   }
 }
 
-// Recent deployments (Vercel) — needs a VERCEL_TOKEN repo secret. A token
+// Current focus (Minifocus) — the .txt endpoint blocks cross-origin browser
+// requests, so fetch it server-side (no Origin header) and cache the text.
+try {
+  const r = await fetch("https://minifocus.app/embed/chris.txt", {
+    headers: { "User-Agent": UA }
+  });
+  if (r.ok) {
+    const focus = (await r.text()).replace(/<[^>]*>/g, "").trim();
+    if (focus) {
+      out.focus = focus;
+      console.log(`ok   focus`);
+    }
+  } else {
+    console.log(`miss focus (${r.status})`);
+  }
+} catch {
+  console.log("miss focus (error)");
+}
+
+// Recent production deployments (Vercel) — needs a VERCEL_TOKEN repo secret. A token
 // can't live in the page, so this runs server-side and caches the result.
 if (process.env.VERCEL_TOKEN) {
   try {
     const team = process.env.VERCEL_TEAM_ID ? `&teamId=${process.env.VERCEL_TEAM_ID}` : "";
-    const r = await fetch(`https://api.vercel.com/v6/deployments?limit=8${team}`, {
+    const r = await fetch(`https://api.vercel.com/v6/deployments?limit=10&target=production${team}`, {
       headers: { Authorization: `Bearer ${process.env.VERCEL_TOKEN}` }
     });
     if (r.ok) {
@@ -164,5 +183,5 @@ await mkdir("data", { recursive: true });
 await writeFile("data/feeds.json", JSON.stringify(out, null, 2) + "\n");
 console.log(
   `wrote data/feeds.json (${Object.keys(out.feeds).length} feeds` +
-  `${out.deployments ? ", " + out.deployments.length + " deploys" : ""})`
+  `${out.focus ? ", focus" : ""}${out.deployments ? ", " + out.deployments.length + " deploys" : ""})`
 );

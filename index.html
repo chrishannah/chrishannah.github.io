@@ -73,17 +73,19 @@
           <div><span class="k">Base</span><span class="v">United Kingdom</span></div>
           <div><span class="k">Region</span><span class="v">54.0&deg;N 2.0&deg;W</span></div>
         </div>
-        <div class="focus-block">
-          <span class="focus-label"><span class="dot" aria-hidden="true"></span> Current Focus</span>
-          <span class="focus-embed">
-            <script src="https://minifocus.app/embed/chris.js" data-color-mode="dark"></script>
-          </span>
+      </section>
+
+      <section class="panel focus-panel" aria-labelledby="focus-h">
+        <div class="panel-h">
+          <span class="h-left"><span class="h-idx">02</span> <span id="focus-h">Current Focus</span></span>
+          <span class="h-status"><span class="dot" aria-hidden="true"></span> Minifocus</span>
         </div>
+        <p class="focus-text" id="focus">Building things.</p>
       </section>
 
       <section class="panel" aria-labelledby="comms-h">
         <div class="panel-h">
-          <span class="h-left"><span class="h-idx">02</span> <span id="comms-h">Comms</span></span>
+          <span class="h-left"><span class="h-idx">03</span> <span id="comms-h">Comms</span></span>
           <span class="h-status">Uplink OK</span>
         </div>
         <div class="comms-grid">
@@ -116,7 +118,7 @@
 
       <section class="panel" aria-labelledby="feeds-h">
         <div class="panel-h">
-          <span class="h-left"><span class="h-idx">03</span> <span id="feeds-h">Feeds</span></span>
+          <span class="h-left"><span class="h-idx">04</span> <span id="feeds-h">Feeds</span></span>
           <span class="h-status">Writing</span>
         </div>
         <div class="feeds">
@@ -143,7 +145,7 @@
 
       <section class="panel" aria-labelledby="vis-h">
         <div class="panel-h">
-          <span class="h-left"><span class="h-idx">07</span> <span id="vis-h">Visitors</span></span>
+          <span class="h-left"><span class="h-idx">05</span> <span id="vis-h">Visitors</span></span>
           <span class="h-status"><span class="dot" aria-hidden="true"></span> Live</span>
         </div>
         <!-- Tinylytics countries widget (rendered by the embed script below) -->
@@ -205,7 +207,7 @@
 
       <section class="panel" id="deploy-panel" aria-labelledby="deploy-h" hidden>
         <div class="panel-h">
-          <span class="h-left"><span class="h-idx">08</span> <span id="deploy-h">Deployments</span></span>
+          <span class="h-left"><span class="h-idx">06</span> <span id="deploy-h">Deployments</span></span>
           <span class="h-status"><span class="dot" aria-hidden="true"></span> Vercel</span>
         </div>
         <ol class="log deploys" id="deploys"></ol>
@@ -216,7 +218,7 @@
     <div class="col">
       <section class="panel" aria-labelledby="flag-h">
         <div class="panel-h">
-          <span class="h-left"><span class="h-idx">04</span> <span id="flag-h">Flagship</span></span>
+          <span class="h-left"><span class="h-idx">07</span> <span id="flag-h">Flagship</span></span>
           <span class="h-status"><span class="dot" aria-hidden="true"></span> Live</span>
         </div>
         <h2 class="flag-title">Text Case</h2>
@@ -236,7 +238,7 @@
 
       <section class="panel" aria-labelledby="svc-h">
         <div class="panel-h">
-          <span class="h-left"><span class="h-idx">05</span> <span id="svc-h">Projects</span></span>
+          <span class="h-left"><span class="h-idx">08</span> <span id="svc-h">Projects</span></span>
           <span class="h-status"><span class="dot" aria-hidden="true"></span> Shipped</span>
         </div>
         <div class="systems">
@@ -270,7 +272,7 @@
 
       <section class="panel" aria-labelledby="repo-h">
         <div class="panel-h">
-          <span class="h-left"><span class="h-idx">06</span> <span id="repo-h">Repositories</span></span>
+          <span class="h-left"><span class="h-idx">09</span> <span id="repo-h">Repositories</span></span>
           <span class="h-status">Open Source</span>
         </div>
         <div class="systems">
@@ -488,6 +490,9 @@
       fetch("/data/feeds.json", { cache: "no-cache" })
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function (data) {
+          if (data && data.focus) {
+            document.getElementById("focus").textContent = String(data.focus).trim();
+          }
           var feeds = (data && data.feeds) || {};
           document.querySelectorAll("[data-feed]").forEach(function (el) {
             var f = feeds[el.getAttribute("data-feed")];
