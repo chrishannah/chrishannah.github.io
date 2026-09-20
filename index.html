@@ -124,12 +124,12 @@
           </a>
           <a class="feed" href="https://journeysthroughglass.net" data-feed="journeysthroughglass.net">
             <span class="feed-name">journeysthroughglass.net</span>
-            <div class="feed-desc">Writing project.</div>
+            <div class="feed-desc">My experience travelling through new technology.</div>
             <div class="feed-latest" hidden></div>
           </a>
           <a class="feed" href="https://codeandculture.uk" data-feed="codeandculture.uk">
             <span class="feed-name">codeandculture.uk</span>
-            <div class="feed-desc">Writing project.</div>
+            <div class="feed-desc">Thoughts and short essays on life and being a professional software engineer.</div>
             <div class="feed-latest" hidden></div>
           </a>
         </div>
@@ -176,6 +176,12 @@
           <span class="hm-cell l3" aria-hidden="true"></span>
           <span class="hm-cell l4" aria-hidden="true"></span>
           More
+        </div>
+
+        <div class="langs" id="langs" hidden>
+          <div class="act-sub"><span>Top Languages</span></div>
+          <div class="lang-bar" id="lang-bar"></div>
+          <div class="lang-legend" id="lang-legend"></div>
         </div>
 
         <div class="act-sub">
@@ -342,9 +348,8 @@
   <script>
     (function () {
       var USER = "chrishannah";
-      // Minifocus: set this to your public Minifocus JSON/text endpoint to show
-      // your current focus live. Leave "" to keep the static focus label.
-      var FOCUS_URL = "";
+      // Minifocus: public endpoint returning the current focus as plain text.
+      var FOCUS_URL = "https://minifocus.app/embed/chris.txt";
       var hm = document.getElementById("heatmap");
 
       // Skeleton heatmap so the panel looks intentional before/without data.
@@ -427,13 +432,40 @@
         })
         .catch(function () {});
 
+      var LANG_COLORS = ["#f73d3a", "#f3961d", "#17ecff", "#bd48e8", "#00ff95", "#ee388a"];
       fetch("https://api.github.com/users/" + USER + "/repos?per_page=100&type=owner")
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function (repos) {
-          var stars = repos.reduce(function (a, r) {
-            return a + (r.fork ? 0 : (r.stargazers_count || 0));
-          }, 0);
+          var owned = repos.filter(function (r) { return !r.fork; });
+          var stars = owned.reduce(function (a, r) { return a + (r.stargazers_count || 0); }, 0);
           document.getElementById("st-stars").textContent = fmt(stars);
+
+          // Top languages across owned repos
+          var counts = {}, total = 0;
+          owned.forEach(function (r) {
+            if (!r.language) return;
+            counts[r.language] = (counts[r.language] || 0) + 1;
+            total++;
+          });
+          var arr = Object.keys(counts)
+            .map(function (k) { return { name: k, n: counts[k] }; })
+            .sort(function (a, b) { return b.n - a.n; });
+          if (!total || !arr.length) return;
+          var top = arr.slice(0, 6);
+          var shown = top.reduce(function (a, x) { return a + x.n; }, 0);
+          var bar = "", leg = "";
+          top.forEach(function (x, i) {
+            var pct = Math.round((x.n / total) * 100);
+            var w = (x.n / shown) * 100;
+            var col = LANG_COLORS[i % LANG_COLORS.length];
+            bar += '<span class="lang-seg" style="width:' + w + "%;background:" + col +
+              '" title="' + esc(x.name) + " · " + pct + '%"></span>';
+            leg += '<span class="lang-item"><span class="lang-dot" style="background:' + col +
+              '"></span>' + esc(x.name) + ' <span class="lang-pct">' + pct + "%</span></span>";
+          });
+          document.getElementById("lang-bar").innerHTML = bar;
+          document.getElementById("lang-legend").innerHTML = leg;
+          document.getElementById("langs").hidden = false;
         })
         .catch(function () {});
 
@@ -480,7 +512,7 @@
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function (events) {
           var rows = [];
-          for (var i = 0; i < events.length && rows.length < 7; i++) {
+          for (var i = 0; i < events.length && rows.length < 9; i++) {
             var ev = events[i];
             var repo = (ev.repo && ev.repo.name ? ev.repo.name.split("/").pop() : "");
             var msg = null;
