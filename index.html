@@ -71,7 +71,13 @@
         </p>
         <div class="meta-rows">
           <div><span class="k">Base</span><span class="v">United Kingdom</span></div>
-          <div><span class="k">Focus</span><span class="v" id="focus">Apps &middot; Tools &middot; Writing</span></div>
+          <div><span class="k">Region</span><span class="v">54.0&deg;N 2.0&deg;W</span></div>
+        </div>
+        <div class="focus-block">
+          <span class="focus-label"><span class="dot" aria-hidden="true"></span> Current Focus</span>
+          <span class="focus-embed">
+            <script src="https://minifocus.app/embed/chris.js" data-color-mode="dark"></script>
+          </span>
         </div>
       </section>
 
@@ -356,10 +362,8 @@
   <script>
     (function () {
       var USER = "chrishannah";
-      // Minifocus: the embed endpoint blocks cross-origin requests from this
-      // domain, so the focus is fetched server-side by the GitHub Action and
-      // cached into data/feeds.json (read below). Leave FOCUS_URL empty.
-      var FOCUS_URL = "";
+      // Current focus is rendered by the Minifocus <script> embed in the
+      // Operator panel (see the .focus-embed block), which sidesteps CORS.
       var hm = document.getElementById("heatmap");
 
       // Skeleton heatmap so the panel looks intentional before/without data.
@@ -480,24 +484,10 @@
         .catch(function () {});
 
       // --- Current focus (Minifocus) ---
-      // Try the live endpoint (works if it allows CORS from this domain); the
-      // GitHub Action also caches it into data/feeds.json as a fallback.
-      function setFocus(t) {
-        t = (t || "").replace(/<[^>]*>/g, "").trim();
-        if (t) document.getElementById("focus").textContent = t;
-      }
-      if (FOCUS_URL) {
-        fetch(FOCUS_URL, { cache: "no-store" })
-          .then(function (r) { return r.text(); })
-          .then(setFocus)
-          .catch(function () {});
-      }
-
       // --- Latest blog posts (cached by GitHub Action -> data/feeds.json) ---
       fetch("/data/feeds.json", { cache: "no-cache" })
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function (data) {
-          if (data && data.focus) setFocus(data.focus);
           var feeds = (data && data.feeds) || {};
           document.querySelectorAll("[data-feed]").forEach(function (el) {
             var f = feeds[el.getAttribute("data-feed")];

@@ -331,6 +331,46 @@ a:visited { color: inherit; }
   color: var(--fg);
 }
 
+/* Current focus (Minifocus embed) ----------------------------------------- */
+
+.focus-block {
+  margin-top: 0.85rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--line-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.focus-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+/* Strip Minifocus's own styling so the widget reads as plain HUD text. */
+.focus-embed,
+.focus-embed * {
+  all: unset;
+  font-family: var(--mono) !important;
+  font-size: 0.84rem !important;
+  line-height: 1.5 !important;
+  color: var(--fg) !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  max-width: 100% !important;
+  overflow-wrap: anywhere;
+}
+.focus-embed { display: block; }
+.focus-embed a { color: var(--accent) !important; cursor: pointer; }
+.focus-embed a:hover { text-decoration: underline !important; }
+.focus-embed img,
+.focus-embed svg { display: none !important; }
+
 /* Comms ------------------------------------------------------------------- */
 
 .comms-grid {
