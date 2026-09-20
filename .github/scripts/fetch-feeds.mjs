@@ -124,23 +124,51 @@ for (const [site, urls] of Object.entries(SITES)) {
   }
 }
 
-// Current focus (Minifocus) — the .txt endpoint blocks cross-origin browser
-// requests, so fetch it server-side (no Origin header) and cache the text.
-try {
-  const r = await fetch("https://minifocus.app/embed/chris.txt", {
-    headers: { "User-Agent": UA }
-  });
-  if (r.ok) {
-    const focus = (await r.text()).replace(/<[^>]*>/g, "").trim();
-    if (focus) {
-      out.focus = focus;
-      console.log(`ok   focus`);
+// Current focus (Minifocus). The endpoint appears to allowlist by origin, so
+// we present as chrishannah.me (which is allowlisted). Try the plain-text
+// endpoint first, then fall back to extracting it from the JS embed.
+async function fetchFocus() {
+  const headers = {
+    "User-Agent": UA,
+    Referer: "https://chrishannah.me/",
+    Origin: "https://chrishannah.me"
+  };
+  try {
+    const r = await fetch("https://minifocus.app/embed/chris.txt", { headers });
+    console.log(`focus txt: ${r.status}`);
+    if (r.ok) {
+      const t = (await r.text()).replace(/<[^>]*>/g, "").trim();
+      if (t) return t;
     }
-  } else {
-    console.log(`miss focus (${r.status})`);
-  }
-} catch {
-  console.log("miss focus (error)");
+  } catch { console.log("focus txt: error"); }
+
+  try {
+    const r = await fetch("https://minifocus.app/embed/chris.js", { headers });
+    console.log(`focus js: ${r.status}`);
+    if (r.ok) {
+      const js = await r.text();
+      const m =
+        js.match(/["'](?:focus|text|status|message|content)["']\s*:\s*"((?:[^"\\]|\\.)*)"/i) ||
+        js.match(/(?:innerHTML|textContent)\s*=\s*"((?:[^"\\]|\\.)*)"/i) ||
+        js.match(/["']((?:[^"'\\]|\\.){12,})["']/); // longest-ish string fallback
+      if (m && m[1]) {
+        let t = m[1];
+        try { t = JSON.parse('"' + t.replace(/"/g, '\\"') + '"'); } catch {}
+        t = t.replace(/<[^>]*>/g, "").trim();
+        if (t) return t;
+      }
+      console.log("focus js: no match");
+    }
+  } catch { console.log("focus js: error"); }
+  return "";
+}
+
+const focus = await fetchFocus();
+if (focus) {
+  out.focus = focus;
+  console.log(`ok   focus -> ${focus.slice(0, 60)}`);
+} else {
+  console.log("miss focus");
 }
 
 // Recent production deployments (Vercel) — needs a VERCEL_TOKEN repo secret. A token
