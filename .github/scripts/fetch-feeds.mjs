@@ -135,7 +135,11 @@ async function fetchFocus() {
     Origin: "https://chrishannah.me"
   };
   const clean = (s) => (s || "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-  const looksLikeCode = (s) => /^\s*[<{[]/.test(s) || /function|=>|document\.|addEventListener|var |const |let /.test(s);
+  // A focus is a short human sentence — reject code, CSS, font files, markup.
+  const isFocusText = (s) =>
+    !!s && s.length <= 240 &&
+    !/[{}]|@font-face|font-family|url\(|<\/|=>|function|:root|\.ttf|\.woff|https?:\/\/fonts|;\s*}/i.test(s) &&
+    /[a-z]/i.test(s);
 
   async function tryUrl(url) {
     try {
@@ -147,12 +151,12 @@ async function fetchFocus() {
       if (ct.includes("json") || body.trim().startsWith("{")) {
         try {
           const j = JSON.parse(body);
-          return clean(j.focus || j.text || j.status || j.message || j.content || "");
+          const t = clean(j.focus || j.text || j.status || j.message || j.content || "");
+          return isFocusText(t) ? t : "";
         } catch { return ""; }
       }
-      if (looksLikeCode(body)) return "";
       const t = clean(body);
-      return t.length >= 3 ? t : "";
+      return isFocusText(t) ? t : "";
     } catch {
       console.log(`focus ${url} -> error`);
       return "";

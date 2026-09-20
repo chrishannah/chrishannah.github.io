@@ -492,7 +492,10 @@
         .then(function (r) { if (!r.ok) throw 0; return r.json(); })
         .then(function (data) {
           data = data || {};
-          if (data.focus) document.getElementById("focus").textContent = String(data.focus).trim();
+          var fx = data.focus ? String(data.focus).trim() : "";
+          if (fx && fx.length <= 240 && !/[{}]|@font-face|font-family|url\(|<\/|=>|:root|\.ttf|\.woff/i.test(fx)) {
+            document.getElementById("focus").textContent = fx;
+          }
           renderFeeds(data.feeds || {});
           renderDeployments(data.deployments);
           renderGitHub(data.github);
