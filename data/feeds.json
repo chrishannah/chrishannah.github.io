@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-21T20:27:00.528Z",
+  "updated": "2026-09-22T05:04:25.195Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -57,7 +57,7 @@
         "time": "2026-09-20T01:00:45Z"
       }
     ],
-    "total": 887,
+    "total": 889,
     "days": [
       {
         "d": "2025-09-21",
@@ -1886,12 +1886,25 @@
       },
       {
         "d": "2026-09-21",
-        "c": 1,
+        "c": 3,
         "l": 1
+      },
+      {
+        "d": "2026-09-22",
+        "c": 0,
+        "l": 0
       }
     ]
   },
   "deployments": [
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-pv1pomd5y-chris-hannahs-projects.vercel.app",
+      "ts": 1790025850058,
+      "ref": "master",
+      "msg": "Merge pull request #60 from chrishannah/mantis/daily-operator-20260921-public-di"
+    },
     {
       "project": "blog",
       "state": "READY",
@@ -1963,14 +1976,6 @@
       "ts": 1787345620408,
       "ref": "master",
       "msg": "spelling fix"
-    },
-    {
-      "project": "blog",
-      "state": "READY",
-      "url": "https://blog-3prlnrycp-chris-hannahs-projects.vercel.app",
-      "ts": 1787342508879,
-      "ref": "master",
-      "msg": "post: Do I Need an IDE Anymore?"
     }
   ]
 }
