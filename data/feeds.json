@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-28T05:30:37.635Z",
+  "updated": "2026-09-28T16:47:40.835Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -7,7 +7,7 @@
       "repos": 46,
       "followers": 88,
       "stars": 165,
-      "streak": 0
+      "streak": 2
     },
     "languages": [
       {
@@ -57,7 +57,7 @@
         "time": "2026-09-20T01:00:45Z"
       }
     ],
-    "total": 887,
+    "total": 936,
     "days": [
       {
         "d": "2025-09-28",
@@ -1881,17 +1881,49 @@
       },
       {
         "d": "2026-09-27",
-        "c": 0,
-        "l": 0
+        "c": 15,
+        "l": 1
       },
       {
         "d": "2026-09-28",
-        "c": 0,
-        "l": 0
+        "c": 34,
+        "l": 3
       }
     ]
   },
   "deployments": [
+    {
+      "project": "dev-blog",
+      "state": "READY",
+      "url": "https://dev-blog-nzjdy1309-chris-hannahs-projects.vercel.app",
+      "ts": 1790608559398,
+      "ref": "master",
+      "msg": "docs: confirm AI crawler policy in launch checklist"
+    },
+    {
+      "project": "dev-blog",
+      "state": "READY",
+      "url": "https://dev-blog-6gekdgdv7-chris-hannahs-projects.vercel.app",
+      "ts": 1790604288031,
+      "ref": "master",
+      "msg": "docs: confirm Tinylytics is live after push"
+    },
+    {
+      "project": "dev-blog",
+      "state": "READY",
+      "url": "https://dev-blog-odshbgj5i-chris-hannahs-projects.vercel.app",
+      "ts": 1790604231923,
+      "ref": "master",
+      "msg": "docs: confirm domain redirect direction is fixed"
+    },
+    {
+      "project": "dev-blog",
+      "state": "READY",
+      "url": "https://dev-blog-ftfalq3i5-chris-hannahs-projects.vercel.app",
+      "ts": 1790598943288,
+      "ref": "master",
+      "msg": "feat: show a larger photo on the About page"
+    },
     {
       "project": "miniroll",
       "state": "READY",
@@ -1939,38 +1971,6 @@
       "ts": 1787419373251,
       "ref": "master",
       "msg": "new post"
-    },
-    {
-      "project": "miniroll",
-      "state": "READY",
-      "url": "https://miniroll-bfxtsjodt-chris-hannahs-projects.vercel.app",
-      "ts": 1787419158578,
-      "ref": "master",
-      "msg": "Merge pull request #57 from chrishannah/fix-signed-in-mobile-nav"
-    },
-    {
-      "project": "miniroll",
-      "state": "READY",
-      "url": "https://miniroll-g7lc3qohn-chris-hannahs-projects.vercel.app",
-      "ts": 1787414243669,
-      "ref": "master",
-      "msg": "Merge pull request #56 from chrishannah/ui-refresh-tokens"
-    },
-    {
-      "project": "miniroll",
-      "state": "READY",
-      "url": "https://miniroll-dbiwzk3tn-chris-hannahs-projects.vercel.app",
-      "ts": 1787397945115,
-      "ref": "master",
-      "msg": "Merge pull request #55 from chrishannah/mantis/daily-operator-20260822-homepage-"
-    },
-    {
-      "project": "blog",
-      "state": "READY",
-      "url": "https://blog-5f1dbzgpx-chris-hannahs-projects.vercel.app",
-      "ts": 1787345620408,
-      "ref": "master",
-      "msg": "spelling fix"
     }
   ]
 }
