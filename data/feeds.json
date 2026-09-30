@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-29T23:45:31.766Z",
+  "updated": "2026-09-30T05:39:00.754Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -7,7 +7,7 @@
       "repos": 46,
       "followers": 88,
       "stars": 165,
-      "streak": 2
+      "streak": 0
     },
     "languages": [
       {
@@ -1891,6 +1891,11 @@
       },
       {
         "d": "2026-09-29",
+        "c": 0,
+        "l": 0
+      },
+      {
+        "d": "2026-09-30",
         "c": 0,
         "l": 0
       }
