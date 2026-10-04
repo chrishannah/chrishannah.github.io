@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-03T23:07:14.274Z",
+  "updated": "2026-10-04T05:59:55.977Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -7,7 +7,7 @@
       "repos": 46,
       "followers": 88,
       "stars": 165,
-      "streak": 0
+      "streak": 1
     },
     "languages": [
       {
@@ -57,43 +57,8 @@
         "time": "2026-09-20T01:00:45Z"
       }
     ],
-    "total": 936,
+    "total": 938,
     "days": [
-      {
-        "d": "2025-09-28",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-09-29",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-09-30",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-10-01",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-10-02",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-10-03",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-10-04",
-        "c": 0,
-        "l": 0
-      },
       {
         "d": "2025-10-05",
         "c": 6,
@@ -1913,10 +1878,23 @@
         "d": "2026-10-03",
         "c": 0,
         "l": 0
+      },
+      {
+        "d": "2026-10-04",
+        "c": 2,
+        "l": 1
       }
     ]
   },
   "deployments": [
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-q1gtlln5k-chris-hannahs-projects.vercel.app",
+      "ts": 1791069465147,
+      "ref": "master",
+      "msg": "fix: add production canonical links to page layouts"
+    },
     {
       "project": "dev-blog",
       "state": "READY",
@@ -1988,14 +1966,6 @@
       "ts": 1787446088195,
       "ref": "master",
       "msg": "Merge pull request #58 from chrishannah/feed-and-usage-tracking"
-    },
-    {
-      "project": "blog",
-      "state": "READY",
-      "url": "https://blog-4e68ojueu-chris-hannahs-projects.vercel.app",
-      "ts": 1787419373251,
-      "ref": "master",
-      "msg": "new post"
     }
   ]
 }
