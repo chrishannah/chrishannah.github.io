@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-05T17:11:14.239Z",
+  "updated": "2026-10-06T01:19:19.991Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -7,7 +7,7 @@
       "repos": 46,
       "followers": 88,
       "stars": 165,
-      "streak": 1
+      "streak": 2
     },
     "languages": [
       {
@@ -57,7 +57,7 @@
         "time": "2026-09-20T01:00:45Z"
       }
     ],
-    "total": 939,
+    "total": 944,
     "days": [
       {
         "d": "2025-10-05",
@@ -1881,17 +1881,38 @@
       },
       {
         "d": "2026-10-04",
-        "c": 3,
+        "c": 4,
         "l": 1
       },
       {
         "d": "2026-10-05",
+        "c": 4,
+        "l": 1
+      },
+      {
+        "d": "2026-10-06",
         "c": 0,
         "l": 0
       }
     ]
   },
   "deployments": [
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-9ynzupaay-chris-hannahs-projects.vercel.app",
+      "ts": 1791239214544,
+      "ref": "master",
+      "msg": "Merge pull request #59 from chrishannah/claude/dreamy-euler-mz2h77"
+    },
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-7k03834vc-chris-hannahs-projects.vercel.app",
+      "ts": 1791221160774,
+      "ref": "master",
+      "msg": "Merge pull request #61 from chrishannah/mantis/daily-operator-20261004-rss-disco"
+    },
     {
       "project": "blog",
       "state": "READY",
@@ -1955,22 +1976,6 @@
       "ts": 1788989989282,
       "ref": "master",
       "msg": "duo"
-    },
-    {
-      "project": "blog",
-      "state": "READY",
-      "url": "https://blog-hzpo2wvm8-chris-hannahs-projects.vercel.app",
-      "ts": 1788112794734,
-      "ref": "master",
-      "msg": "fix: remove Notes link from nav bars"
-    },
-    {
-      "project": "miniroll",
-      "state": "READY",
-      "url": "https://miniroll-84ehoeumw-chris-hannahs-projects.vercel.app",
-      "ts": 1787446088195,
-      "ref": "master",
-      "msg": "Merge pull request #58 from chrishannah/feed-and-usage-tracking"
     }
   ]
 }
