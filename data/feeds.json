@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-20T13:36:14.483Z",
+  "updated": "2026-10-20T20:01:23.286Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -35,18 +35,7 @@
         "pct": 5
       }
     ],
-    "commits": [
-      {
-        "repo": "ferry-map",
-        "msg": "merged PR #2",
-        "time": "2026-09-20T12:25:30Z"
-      },
-      {
-        "repo": "ferry-map",
-        "msg": "opened PR #2",
-        "time": "2026-09-20T12:24:49Z"
-      }
-    ],
+    "commits": [],
     "total": 932,
     "days": [
       {
