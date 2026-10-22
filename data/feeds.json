@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-21T23:25:06.208Z",
+  "updated": "2026-10-22T04:57:06.952Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -1875,6 +1875,11 @@
       },
       {
         "d": "2026-10-21",
+        "c": 0,
+        "l": 0
+      },
+      {
+        "d": "2026-10-22",
         "c": 0,
         "l": 0
       }
