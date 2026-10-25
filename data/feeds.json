@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-25T04:50:16.259Z",
+  "updated": "2026-10-25T13:13:06.437Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -7,7 +7,7 @@
       "repos": 47,
       "followers": 86,
       "stars": 165,
-      "streak": 1
+      "streak": 2
     },
     "languages": [
       {
@@ -36,7 +36,7 @@
       }
     ],
     "commits": [],
-    "total": 938,
+    "total": 941,
     "days": [
       {
         "d": "2025-10-26",
@@ -1860,12 +1860,20 @@
       },
       {
         "d": "2026-10-25",
-        "c": 0,
-        "l": 0
+        "c": 3,
+        "l": 1
       }
     ]
   },
   "deployments": [
+    {
+      "project": "miniroll",
+      "state": "READY",
+      "url": "https://miniroll-77vsay6dy-chris-hannahs-projects.vercel.app",
+      "ts": 1792930490400,
+      "ref": "master",
+      "msg": "Merge pull request #63 from chrishannah/codex/landing-page-revamp"
+    },
     {
       "project": "miniroll",
       "state": "READY",
@@ -1937,14 +1945,6 @@
       "ts": 1790598943288,
       "ref": "master",
       "msg": "feat: show a larger photo on the About page"
-    },
-    {
-      "project": "miniroll",
-      "state": "READY",
-      "url": "https://miniroll-pv1pomd5y-chris-hannahs-projects.vercel.app",
-      "ts": 1790025850058,
-      "ref": "master",
-      "msg": "Merge pull request #60 from chrishannah/mantis/daily-operator-20260921-public-di"
     }
   ]
 }
