@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T13:21:05.276Z",
+  "updated": "2026-11-19T23:05:10.158Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -7,7 +7,7 @@
       "repos": 47,
       "followers": 86,
       "stars": 165,
-      "streak": 0
+      "streak": 1
     },
     "languages": [
       {
@@ -36,7 +36,7 @@
       }
     ],
     "commits": [],
-    "total": 946,
+    "total": 947,
     "days": [
       {
         "d": "2025-11-16",
@@ -1880,12 +1880,20 @@
       },
       {
         "d": "2026-11-19",
-        "c": 0,
-        "l": 0
+        "c": 1,
+        "l": 1
       }
     ]
   },
   "deployments": [
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-b348ly7k0-chris-hannahs-projects.vercel.app",
+      "ts": 1795122687480,
+      "ref": "master",
+      "msg": "text case"
+    },
     {
       "project": "miniroll",
       "state": "READY",
@@ -1957,14 +1965,6 @@
       "ts": 1790604231923,
       "ref": "master",
       "msg": "docs: confirm domain redirect direction is fixed"
-    },
-    {
-      "project": "dev-blog",
-      "state": "READY",
-      "url": "https://dev-blog-ftfalq3i5-chris-hannahs-projects.vercel.app",
-      "ts": 1790598943288,
-      "ref": "master",
-      "msg": "feat: show a larger photo on the About page"
     }
   ]
 }
