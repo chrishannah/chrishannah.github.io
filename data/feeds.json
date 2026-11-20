@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T23:05:10.158Z",
+  "updated": "2026-11-20T07:25:12.489Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -7,7 +7,7 @@
       "repos": 47,
       "followers": 86,
       "stars": 165,
-      "streak": 1
+      "streak": 2
     },
     "languages": [
       {
@@ -36,7 +36,7 @@
       }
     ],
     "commits": [],
-    "total": 947,
+    "total": 948,
     "days": [
       {
         "d": "2025-11-16",
@@ -1882,10 +1882,23 @@
         "d": "2026-11-19",
         "c": 1,
         "l": 1
+      },
+      {
+        "d": "2026-11-20",
+        "c": 1,
+        "l": 1
       }
     ]
   },
   "deployments": [
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-1fmn3ljkz-chris-hannahs-projects.vercel.app",
+      "ts": 1795137902505,
+      "ref": "master",
+      "msg": "check out text case"
+    },
     {
       "project": "blog",
       "state": "READY",
@@ -1957,14 +1970,6 @@
       "ts": 1790604288031,
       "ref": "master",
       "msg": "docs: confirm Tinylytics is live after push"
-    },
-    {
-      "project": "dev-blog",
-      "state": "READY",
-      "url": "https://dev-blog-odshbgj5i-chris-hannahs-projects.vercel.app",
-      "ts": 1790604231923,
-      "ref": "master",
-      "msg": "docs: confirm domain redirect direction is fixed"
     }
   ]
 }
