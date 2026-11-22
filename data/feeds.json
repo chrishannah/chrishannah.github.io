@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-22T06:58:52.871Z",
+  "updated": "2026-11-22T16:20:19.798Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -36,7 +36,7 @@
       }
     ],
     "commits": [],
-    "total": 953,
+    "total": 960,
     "days": [
       {
         "d": "2025-11-23",
@@ -1585,7 +1585,7 @@
       },
       {
         "d": "2026-09-28",
-        "c": 34,
+        "c": 38,
         "l": 3
       },
       {
@@ -1860,12 +1860,36 @@
       },
       {
         "d": "2026-11-22",
-        "c": 3,
+        "c": 6,
         "l": 1
       }
     ]
   },
   "deployments": [
+    {
+      "project": "dev-blog",
+      "state": "READY",
+      "url": "https://dev-blog-g54hmqvkw-chris-hannahs-projects.vercel.app",
+      "ts": 1795357380726,
+      "ref": "master",
+      "msg": "name"
+    },
+    {
+      "project": "dev-blog",
+      "state": "READY",
+      "url": "https://dev-blog-avplhe0q1-chris-hannahs-projects.vercel.app",
+      "ts": 1795357269372,
+      "ref": "master",
+      "msg": "name change"
+    },
+    {
+      "project": "dev-blog",
+      "state": "READY",
+      "url": "https://dev-blog-ksj3kk0tu-chris-hannahs-projects.vercel.app",
+      "ts": 1795357195748,
+      "ref": "master",
+      "msg": "new post"
+    },
     {
       "project": "blog",
       "state": "READY",
@@ -1921,30 +1945,6 @@
       "ts": 1792881682271,
       "ref": "master",
       "msg": "Merge branch 'master' of github.com:chrishannah/miniroll"
-    },
-    {
-      "project": "miniroll",
-      "state": "READY",
-      "url": "https://miniroll-9ynzupaay-chris-hannahs-projects.vercel.app",
-      "ts": 1791239214544,
-      "ref": "master",
-      "msg": "Merge pull request #59 from chrishannah/claude/dreamy-euler-mz2h77"
-    },
-    {
-      "project": "miniroll",
-      "state": "READY",
-      "url": "https://miniroll-7k03834vc-chris-hannahs-projects.vercel.app",
-      "ts": 1791221160774,
-      "ref": "master",
-      "msg": "Merge pull request #61 from chrishannah/mantis/daily-operator-20261004-rss-disco"
-    },
-    {
-      "project": "blog",
-      "state": "READY",
-      "url": "https://blog-q1gtlln5k-chris-hannahs-projects.vercel.app",
-      "ts": 1791069465147,
-      "ref": "master",
-      "msg": "fix: add production canonical links to page layouts"
     }
   ]
 }
