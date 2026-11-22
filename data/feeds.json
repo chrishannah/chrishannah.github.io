@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-21T21:41:02.571Z",
+  "updated": "2026-11-22T06:58:52.871Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -7,7 +7,7 @@
       "repos": 47,
       "followers": 86,
       "stars": 165,
-      "streak": 2
+      "streak": 4
     },
     "languages": [
       {
@@ -36,43 +36,8 @@
       }
     ],
     "commits": [],
-    "total": 948,
+    "total": 953,
     "days": [
-      {
-        "d": "2025-11-16",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-11-17",
-        "c": 4,
-        "l": 1
-      },
-      {
-        "d": "2025-11-18",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-11-19",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-11-20",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-11-21",
-        "c": 0,
-        "l": 0
-      },
-      {
-        "d": "2025-11-22",
-        "c": 1,
-        "l": 1
-      },
       {
         "d": "2025-11-23",
         "c": 0,
@@ -1890,12 +1855,33 @@
       },
       {
         "d": "2026-11-21",
-        "c": 0,
-        "l": 0
+        "c": 2,
+        "l": 1
+      },
+      {
+        "d": "2026-11-22",
+        "c": 3,
+        "l": 1
       }
     ]
   },
   "deployments": [
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-ih7flwczn-chris-hannahs-projects.vercel.app",
+      "ts": 1795308303661,
+      "ref": "master",
+      "msg": "app updates"
+    },
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-cvv8tkv82-chris-hannahs-projects.vercel.app",
+      "ts": 1795302317619,
+      "ref": "master",
+      "msg": "new text shot site"
+    },
     {
       "project": "blog",
       "state": "READY",
@@ -1959,22 +1945,6 @@
       "ts": 1791069465147,
       "ref": "master",
       "msg": "fix: add production canonical links to page layouts"
-    },
-    {
-      "project": "dev-blog",
-      "state": "READY",
-      "url": "https://dev-blog-nzjdy1309-chris-hannahs-projects.vercel.app",
-      "ts": 1790608559398,
-      "ref": "master",
-      "msg": "docs: confirm AI crawler policy in launch checklist"
-    },
-    {
-      "project": "dev-blog",
-      "state": "READY",
-      "url": "https://dev-blog-6gekdgdv7-chris-hannahs-projects.vercel.app",
-      "ts": 1790604288031,
-      "ref": "master",
-      "msg": "docs: confirm Tinylytics is live after push"
     }
   ]
 }
