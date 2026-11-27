@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T13:57:47.545Z",
+  "updated": "2026-11-27T00:38:04.849Z",
   "feeds": {},
   "focus": "Working on a new dashboard at chrishannah.dev, and a new UK ferry visualisation site at ferry.chrishannah.dev.",
   "github": {
@@ -7,7 +7,7 @@
       "repos": 47,
       "followers": 85,
       "stars": 165,
-      "streak": 0
+      "streak": 1
     },
     "languages": [
       {
@@ -36,7 +36,7 @@
       }
     ],
     "commits": [],
-    "total": 955,
+    "total": 956,
     "days": [
       {
         "d": "2025-11-23",
@@ -1880,12 +1880,33 @@
       },
       {
         "d": "2026-11-26",
+        "c": 1,
+        "l": 1
+      },
+      {
+        "d": "2026-11-27",
         "c": 0,
         "l": 0
       }
     ]
   },
   "deployments": [
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-48tl6aa85-chris-hannahs-projects.vercel.app",
+      "ts": 1795723993124,
+      "ref": "master",
+      "msg": "Publish link post"
+    },
+    {
+      "project": "blog",
+      "state": "READY",
+      "url": "https://blog-7s0rcobz3-chris-hannahs-projects.vercel.app",
+      "ts": 1795723959707,
+      "ref": "master",
+      "msg": "link: Whose Time Are We Saving?"
+    },
     {
       "project": "dev-blog",
       "state": "READY",
@@ -1949,22 +1970,6 @@
       "ts": 1792930490400,
       "ref": "master",
       "msg": "Merge pull request #63 from chrishannah/codex/landing-page-revamp"
-    },
-    {
-      "project": "miniroll",
-      "state": "READY",
-      "url": "https://miniroll-8l4cd1vwc-chris-hannahs-projects.vercel.app",
-      "ts": 1792881694790,
-      "ref": "master",
-      "msg": "Merge pull request #62 from chrishannah/cosine/analyse-miniroll-app-improvements"
-    },
-    {
-      "project": "miniroll",
-      "state": "READY",
-      "url": "https://miniroll-gzq8mcxgu-chris-hannahs-projects.vercel.app",
-      "ts": 1792881682271,
-      "ref": "master",
-      "msg": "Merge branch 'master' of github.com:chrishannah/miniroll"
     }
   ]
 }
